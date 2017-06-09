@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Glia.iml" filepath="$PROJECT_DIR$/Glia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Glia.iml" filepath="$PROJECT_DIR$/Glia.iml" />
       <module fileurl="file://$PROJECT_DIR$/Glue2.iml" filepath="$PROJECT_DIR$/Glue2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
