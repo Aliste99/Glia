@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Glue</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="leftSymbol"><![CDATA[<]]></string>
+    <string name="rightSymbol"><![CDATA[>]]></string>
+
+    <string-array name="tagsExample">
+        <item>Tag1</item>
+        <item>Tag2</item>
+        <item>Tag3</item>
+        <item>Tag4</item>
+    </string-array>
+</resources>
