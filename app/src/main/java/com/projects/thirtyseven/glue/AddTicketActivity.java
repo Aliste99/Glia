@@ -3,16 +3,19 @@ package com.projects.thirtyseven.glue;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,6 +25,7 @@ public class AddTicketActivity extends AppCompatActivity {
     EditText ticketCategory, ticketDescription, ticketTaskProfession, ticketTaskCoWorker,
             ticketTaskFee, ticketExpenses, ticketSpending, ticketComment;
     Button saveButton;
+    ImageButton ticketAddLink;
 
     int DIALOG_DATE = 1;
     int DIALOG_TIME = 2;
@@ -67,14 +71,30 @@ public class AddTicketActivity extends AppCompatActivity {
                 showDialog(DIALOG_TIME);
             }
         });
+
+        ticketAddLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(AddTicketActivity.this);
+                dialog.setContentView(R.layout.custom_alert_dialog);
+                dialog.setTitle("Add links");
+                dialog.setCancelable(true);
+                Button button = (Button) dialog.findViewById(R.id.alertDialogDoneButton);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.hide();
+                    }
+                });
+                dialog.show();
+            }
+        });
     }
 
     protected Dialog onCreateDialog(int id) {
         if (id == DIALOG_DATE) {
             return new DatePickerDialog(this, myCallBack, myYear, myMonth, myDay);
-        }
-
-        else if (id == DIALOG_TIME) {
+        } else if (id == DIALOG_TIME) {
             return new TimePickerDialog(this, myCallTimeBack, myHour, myMinute, true);
         }
 
@@ -125,6 +145,7 @@ public class AddTicketActivity extends AppCompatActivity {
         ticketSpending = (EditText) findViewById(R.id.ticketSpendingText);
         ticketComment = (EditText) findViewById(R.id.ticketCommentText);
         saveButton = (Button) findViewById(R.id.saveTicketButton);
+        ticketAddLink = (ImageButton) findViewById(R.id.ticketAddLink);
     }
 
 }
