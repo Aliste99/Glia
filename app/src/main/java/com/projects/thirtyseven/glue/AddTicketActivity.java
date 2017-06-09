@@ -1,23 +1,17 @@
 package com.projects.thirtyseven.glue;
 
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
-import org.w3c.dom.Text;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,7 +24,7 @@ public class AddTicketActivity extends AppCompatActivity {
     Button saveButton;
 
     int DIALOG_DATE = 1;
-    int DIALOG_TIME = 1;
+    int DIALOG_TIME = 2;
     final Calendar c = Calendar.getInstance();
     int myYear = c.get(Calendar.YEAR);
     int myMonth = c.get(Calendar.MONTH);
@@ -47,7 +41,7 @@ public class AddTicketActivity extends AppCompatActivity {
 
         init();
         setCurrentTime();
-        setAdapters();
+        setOnClickLiteners();
     }
 
     private void setCurrentTime() {
@@ -59,13 +53,14 @@ public class AddTicketActivity extends AppCompatActivity {
         ticketTime.setText(strTime);
     }
 
-    private void setAdapters() {
+    private void setOnClickLiteners() {
         ticketDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(DIALOG_DATE);
             }
         });
+
         ticketTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,14 +70,14 @@ public class AddTicketActivity extends AppCompatActivity {
     }
 
     protected Dialog onCreateDialog(int id) {
-        if (id == DIALOG_TIME) {
-            TimePickerDialog tpd = new TimePickerDialog(this, myCallTimeBack, myHour, myMinute, true);
-            return tpd;
-        }
         if (id == DIALOG_DATE) {
-            DatePickerDialog tpd = new DatePickerDialog(this, myCallBack, myYear, myMonth, myDay);
-            return tpd;
+            return new DatePickerDialog(this, myCallBack, myYear, myMonth, myDay);
         }
+
+        else if (id == DIALOG_TIME) {
+            return new TimePickerDialog(this, myCallTimeBack, myHour, myMinute, true);
+        }
+
         return super.onCreateDialog(id);
     }
 
@@ -102,7 +97,6 @@ public class AddTicketActivity extends AppCompatActivity {
 
 
     DatePickerDialog.OnDateSetListener myCallBack = new DatePickerDialog.OnDateSetListener() {
-
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
             myYear = year;
