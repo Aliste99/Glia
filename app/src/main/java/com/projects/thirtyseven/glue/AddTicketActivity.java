@@ -3,6 +3,7 @@ package com.projects.thirtyseven.glue;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +24,7 @@ public class AddTicketActivity extends AppCompatActivity{
     EditText ticketCategory, ticketDescription, ticketTaskProfession, ticketTaskCoWorker,
             ticketTaskFee, ticketExpenses, ticketSpending, ticketComment, ticketTitle;
     Button saveButton;
+    Button addAuthorButton;
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
@@ -132,6 +134,13 @@ public class AddTicketActivity extends AppCompatActivity{
                 databaseReference.push().setValue(ticket);
             }
         });
+        addAuthorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddTicketActivity.this, AddAuthorActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     protected Dialog onCreateDialog(int id) {
@@ -191,6 +200,7 @@ public class AddTicketActivity extends AppCompatActivity{
         ticketComment = (EditText) findViewById(R.id.ticketCommentText);
         saveButton = (Button) findViewById(R.id.saveTicketButton);
         ticketAddLink = (ImageButton) findViewById(R.id.ticketAddLink);
+        addAuthorButton = (Button) findViewById(R.id.addAuthorButton);
     }
 
 }
