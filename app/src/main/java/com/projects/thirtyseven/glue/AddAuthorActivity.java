@@ -34,4 +34,5 @@ public class AddAuthorActivity extends AppCompatActivity {
         gridView.setAdapter(customAddAuthorAdapter);
 
     }
+
 }
