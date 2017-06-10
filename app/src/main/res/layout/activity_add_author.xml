@@ -8,8 +8,8 @@
 
     <GridView
         android:id="@+id/authorsGridView"
-        android:layout_width="368dp"
-        android:layout_height="495dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:columnWidth="90dp"
         android:numColumns="auto_fit"
         android:verticalSpacing="10dp"

@@ -34,4 +34,9 @@ class Author {
     public void setPhoto(int photo) {
         this.photo = photo;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + photo;
+    }
 }

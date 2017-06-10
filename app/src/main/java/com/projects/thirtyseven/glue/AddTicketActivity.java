@@ -6,17 +6,21 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddTicketActivity extends AppCompatActivity{
@@ -30,6 +34,7 @@ public class AddTicketActivity extends AppCompatActivity{
     DatabaseReference databaseReference;
     Ticket ticket;
     ImageButton ticketAddLink;
+    GridView authorsGridView;
 
     int DIALOG_DATE = 1;
     int DIALOG_TIME = 2;
@@ -138,9 +143,28 @@ public class AddTicketActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddTicketActivity.this, AddAuthorActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) return;
+        ArrayList<String> names = data.getStringArrayListExtra("name");
+        ArrayList<Integer> photos = data.getIntegerArrayListExtra("photo");
+        Log.v("Authors", "authors to show: " + names.toString());
+        Log.v("Authors", "photos to show: " + photos.toString());
+        ArrayList<Author> authorArrayList = new ArrayList<>();
+        Author selectedAuthor;
+        for (int i = 0; i < names.size(); i ++){
+            selectedAuthor = new Author(names.get(i), photos.get(i));
+            authorArrayList.add(selectedAuthor);
+            Log.v("Authors", "selected author: " + selectedAuthor.toString());
+        }
+        Log.v("Authors", "authors: " + authorArrayList.toString());
+        authorsGridView.setAdapter(new CustomAddAuthorAdapter(this, R.layout.authors_listview_item, authorArrayList));
     }
 
     protected Dialog onCreateDialog(int id) {
@@ -193,7 +217,6 @@ public class AddTicketActivity extends AppCompatActivity{
         ticketCategory = (EditText) findViewById(R.id.ticketCategoryText);
         ticketDescription = (EditText) findViewById(R.id.ticketDescriptionText);
         ticketTaskProfession = (EditText) findViewById(R.id.ticketProfessionText);
-        ticketTaskCoWorker = (EditText) findViewById(R.id.ticketCoWorkerText);
         ticketTaskFee = (EditText) findViewById(R.id.ticketTaskFeeText);
         ticketExpenses = (EditText) findViewById(R.id.ticketExpensesNameText);
         ticketSpending = (EditText) findViewById(R.id.ticketSpendingText);
@@ -201,6 +224,7 @@ public class AddTicketActivity extends AppCompatActivity{
         saveButton = (Button) findViewById(R.id.saveTicketButton);
         ticketAddLink = (ImageButton) findViewById(R.id.ticketAddLink);
         addAuthorButton = (Button) findViewById(R.id.addAuthorButton);
+        authorsGridView = (GridView)findViewById(R.id.authorsGridView);
     }
 
 }
