@@ -18,7 +18,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class AddTicketActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddTicketActivity extends AppCompatActivity{
     TextView ticketDate, ticketTime, ticketTag;
     EditText ticketCategory, ticketDescription, ticketTaskProfession, ticketTaskCoWorker,
             ticketTaskFee, ticketExpenses, ticketSpending, ticketComment, ticketTitle;
@@ -52,27 +52,8 @@ public class AddTicketActivity extends AppCompatActivity implements View.OnClick
         databaseReference = database.getReference("tickets");
 
         init();
-        saveButton.setOnClickListener(this);
         setCurrentTime();
         setOnClickLiteners();
-    }
-
-    @Override
-    public void onClick(View v) {
-        ticket.setTicketTitle(ticketTitle.getText().toString());
-        ticket.setTicketDate(ticketDate.getText().toString());
-        ticket.setTicketTime(ticketTime.getText().toString());
-        ticket.setTicketTag(ticketTag.getText().toString());
-        ticket.setTicketCategory(ticketCategory.getText().toString());
-        ticket.setTicketDescription(ticketDescription.getText().toString());
-        ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
-        ticket.setTicketTaskCoWorker(ticketTaskCoWorker.getText().toString());
-        ticket.setTicketTaskFee(ticketTaskFee.getText().toString());
-        ticket.setTicketExpenses(ticketExpenses.getText().toString());
-        ticket.setTicketSpending(ticketSpending.getText().toString());
-        ticket.setTicketComment(ticketComment.getText().toString());
-
-        databaseReference.push().setValue(ticket);
     }
 
     private void setCurrentTime() {
@@ -129,6 +110,26 @@ public class AddTicketActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
                 dialog.show();
+            }
+        });
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ticket.setTicketTitle(ticketTitle.getText().toString());
+                ticket.setTicketDate(ticketDate.getText().toString());
+                ticket.setTicketTime(ticketTime.getText().toString());
+                ticket.setTicketTag(ticketTag.getText().toString());
+                ticket.setTicketCategory(ticketCategory.getText().toString());
+                ticket.setTicketDescription(ticketDescription.getText().toString());
+                ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
+                ticket.setTicketTaskCoWorker(ticketTaskCoWorker.getText().toString());
+                ticket.setTicketTaskFee(ticketTaskFee.getText().toString());
+                ticket.setTicketExpenses(ticketExpenses.getText().toString());
+                ticket.setTicketSpending(ticketSpending.getText().toString());
+                ticket.setTicketComment(ticketComment.getText().toString());
+
+                databaseReference.push().setValue(ticket);
             }
         });
     }
