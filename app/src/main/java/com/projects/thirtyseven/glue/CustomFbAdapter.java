@@ -7,17 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.security.AccessControlContext;
 import java.util.ArrayList;
 
-public class CustomLinksAdapter extends ArrayAdapter<LinkItem> {
+public class CustomFbAdapter extends ArrayAdapter<FBItem> {
 
     Context context;
 
-    public CustomLinksAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<LinkItem> link) {
-        super(context, 0, link);
+
+
+    public CustomFbAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<FBItem> fb) {
+        super(context, 0, fb);
         this.context = context;
     }
 
@@ -27,11 +29,11 @@ public class CustomLinksAdapter extends ArrayAdapter<LinkItem> {
         if (listViewItem == null)
             listViewItem = LayoutInflater.from(context).inflate(R.layout.custom_list_of_links, parent, false);
 
-        LinkItem linkItem = (LinkItem) getItem(position);
+        FBItem fbItem = getItem(position);
         TextView title = (TextView) listViewItem.findViewById(R.id.linkTitle);
 
-        if (linkItem != null)
-            title.setText(linkItem.getTitle());
+        if (fbItem != null)
+            title.setText(fbItem.getTitle());
 
         return listViewItem;
     }
