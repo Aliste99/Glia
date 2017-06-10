@@ -39,7 +39,7 @@ class CustomAddAuthorAdapter extends ArrayAdapter {
 
 
         name.setText(currentAuthor.getName());
-        photo.setImageDrawable(currentAuthor.getPhoto());
+        photo.setImageResource(currentAuthor.getPhoto());
 
         return gridViewItem;
     }

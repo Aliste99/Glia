@@ -10,10 +10,10 @@ class Author {
     public Author(){}
 
     String name;
-    Drawable photo;
+    int photo;
 
 
-    public Author(String name, Drawable photo) {
+    public Author(String name, int photo) {
 
         this.name = name;
         this.photo = photo;
@@ -27,11 +27,11 @@ class Author {
         this.name = name;
     }
 
-    public Drawable getPhoto() {
+    public int getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Drawable photo) {
+    public void setPhoto(int photo) {
         this.photo = photo;
     }
 }

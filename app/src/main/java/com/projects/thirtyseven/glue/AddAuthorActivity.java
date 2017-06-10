@@ -20,14 +20,18 @@ public class AddAuthorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_author);
 
-        authorRinat = new Author("Rinat", getResources().getDrawable(R.drawable.Rinat));
-        authorAnna = new Author("Anna", getResources().getDrawable(R.drawable.Anna));
-        authorAzat = new Author("Azat", getResources().getDrawable(R.drawable.Azat));
+        gridView = (GridView)findViewById(R.id.authorsGridView);
 
+        authorRinat = new Author("Rinat", R.drawable.rinat);
+        authorAnna = new Author("Anna", R.drawable.anna);
+        authorAzat = new Author("Azat", R.drawable.azat);
+
+        authorArrayList = new ArrayList<>();
         authorArrayList.add(authorRinat);
         authorArrayList.add(authorAnna);
         authorArrayList.add(authorAzat);
         customAddAuthorAdapter = new CustomAddAuthorAdapter(this, R.layout.custom_gridview_item, authorArrayList);
+        gridView.setAdapter(customAddAuthorAdapter);
 
     }
 }
