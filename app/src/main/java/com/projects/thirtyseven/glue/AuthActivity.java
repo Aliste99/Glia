@@ -11,6 +11,7 @@ import android.widget.Button;
 
 public class AuthActivity extends AppCompatActivity {
     Button skipAuthButton;
+    Button toGoogleAnalyticsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +29,19 @@ public class AuthActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        toGoogleAnalyticsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AuthActivity.this, AnalyticsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void init() {
         skipAuthButton = (Button)findViewById(R.id.skipAuthButton);
+        toGoogleAnalyticsButton = (Button)findViewById(R.id.buttonToGoogleAnalytics);
     }
 
 
