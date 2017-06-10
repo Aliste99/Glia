@@ -6,16 +6,19 @@ import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddTicketActivity extends AppCompatActivity{
@@ -83,9 +86,9 @@ public class AddTicketActivity extends AppCompatActivity{
         ticketAddLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(AddTicketActivity.this);
+                /*final Dialog dialog = new Dialog(AddTicketActivity.this);
                 dialog.setContentView(R.layout.custom_alert_dialog);
-                 dialog.setTitle("Add links");
+                dialog.setTitle("Add links");
                 dialog.setCancelable(true);
 
                 final EditText ytLinkText = (EditText) dialog.findViewById(R.id.youTubeLink);
@@ -109,7 +112,24 @@ public class AddTicketActivity extends AppCompatActivity{
                         dialog.hide();
                     }
                 });
-                dialog.show();
+
+
+                dialog.show();    */
+
+                final Dialog dialog = new Dialog(AddTicketActivity.this);
+                dialog.setContentView(R.layout.custom_alert_dialog2);
+                dialog.setTitle("Add links");
+                dialog.setCancelable(true);
+
+                final ImageButton fbButton = (ImageButton) dialog.findViewById(R.id.fbButton);
+                final ImageButton ytButton = (ImageButton) dialog.findViewById(R.id.ytButton);
+                final ImageButton linkButton = (ImageButton) dialog.findViewById(R.id.linkButton);
+                final ListView listOfLinks = (ListView) dialog.findViewById(R.id.listOfLinks);
+
+                //ArrayList<Ticket> tlistOfLinks = new ArrayList<>();
+                //ArrayAdapter adapter = new CustomTicketAdapter(getActivity, R.layout.custom_list_item, listOfLinks);
+                //listOfLinks.setAdapter(adapter);
+
             }
         });
 
