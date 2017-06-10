@@ -12,6 +12,7 @@ class Author {
     String name;
     Drawable photo;
 
+
     public Author(String name, Drawable photo) {
 
         this.name = name;

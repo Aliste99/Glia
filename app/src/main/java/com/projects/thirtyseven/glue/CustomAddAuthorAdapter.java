@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,8 +19,9 @@ import java.util.List;
  */
 
 class CustomAddAuthorAdapter extends ArrayAdapter {
-    public CustomAddAuthorAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List author) {
-        super(context, resource, author);
+    public CustomAddAuthorAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList <Author> author) {
+        super(context, 0, author);
+
     }
 
     @NonNull
@@ -30,14 +32,14 @@ class CustomAddAuthorAdapter extends ArrayAdapter {
             gridViewItem = LayoutInflater.from(getContext()).inflate(R.layout.custom_gridview_item, parent, false);
         }
 
-        Author currentAuthor = getItem(position);
+        Author currentAuthor = (Author) getItem(position);
 
         ImageView photo = (ImageView) gridViewItem.findViewById(R.id.authorPhotoImageView);
         TextView name = (TextView) gridViewItem.findViewById(R.id.authorNameTextView);
 
 
-        name.setText(currentAuthor.getName);
-        photo.setImageDrawable(currentAuthor.getPhoto);
+        name.setText(currentAuthor.getName());
+        photo.setImageDrawable(currentAuthor.getPhoto());
 
         return gridViewItem;
     }
