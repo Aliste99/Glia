@@ -34,6 +34,11 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.0.1'
     compile 'com.google.apis:google-api-services-analyticsreporting:v4-rev114-1.22.0'
     compile 'com.google.code.findbugs:jsr305:2.0.1'
+    compile 'com.google.api-client:google-api-client-android:1.22.0'
+    compile 'com.google.http-client:google-http-client-android:1.22.0'
+    compile 'com.google.oauth-client:google-oauth-client:1.22.0'
+    compile 'com.google.http-client:google-http-client-gson:1.22.0'
+    compile 'com.google.oauth-client:google-oauth-client-jetty:1.22.0'
     testCompile 'junit:junit:4.12'
 }
 
