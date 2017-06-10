@@ -35,6 +35,9 @@ public class AddTicketActivity extends AppCompatActivity {
     int myDay = c.get(Calendar.DAY_OF_MONTH);
     int myHour = c.get(Calendar.HOUR);
     int myMinute = c.get(Calendar.MINUTE);
+    String ytLink;
+    String fbLink;
+    String wsLink;
 
 
     @Override
@@ -79,10 +82,25 @@ public class AddTicketActivity extends AppCompatActivity {
                 dialog.setContentView(R.layout.custom_alert_dialog);
                 dialog.setTitle("Add links");
                 dialog.setCancelable(true);
+
+                final EditText ytLinkText = (EditText) dialog.findViewById(R.id.youTubeLink);
+                final EditText fbLinkText = (EditText) dialog.findViewById(R.id.faceBookLink);
+                final EditText wsLinkText = (EditText) dialog.findViewById(R.id.webSiteLink);
+
+                if (ytLink == null);
+                else ytLinkText.setText(ytLink);
+                if (fbLink == null);
+                else fbLinkText.setText(fbLink);
+                if (wsLink == null);
+                else wsLinkText.setText(wsLink);
+
                 Button button = (Button) dialog.findViewById(R.id.alertDialogDoneButton);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        ytLink = String.valueOf(ytLinkText.getText());
+                        fbLink = String.valueOf(fbLinkText.getText());
+                        wsLink = String.valueOf(wsLinkText.getText());
                         dialog.hide();
                     }
                 });
