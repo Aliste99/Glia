@@ -33,7 +33,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="YT link..."
+                android:hint="Paste link"
                 android:textSize="14dp" />
 
         </LinearLayout>
@@ -69,7 +69,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="FB link..."
+                android:hint="Paste link"
                 android:textSize="14dp" />
 
         </LinearLayout>
@@ -105,7 +105,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="link..."
+                android:hint="Paste link"
                 android:textSize="14dp" />
 
         </LinearLayout>

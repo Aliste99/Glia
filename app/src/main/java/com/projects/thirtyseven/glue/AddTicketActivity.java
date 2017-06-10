@@ -80,7 +80,7 @@ public class AddTicketActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(AddTicketActivity.this);
                 dialog.setContentView(R.layout.custom_alert_dialog);
-                dialog.setTitle("Add links");
+                 dialog.setTitle("Add links");
                 dialog.setCancelable(true);
 
                 final EditText ytLinkText = (EditText) dialog.findViewById(R.id.youTubeLink);
