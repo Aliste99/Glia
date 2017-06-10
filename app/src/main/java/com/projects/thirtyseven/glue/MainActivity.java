@@ -3,7 +3,6 @@ package com.projects.thirtyseven.glue;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,12 +12,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView listOfTags;
+    Ticket ticket;
+    FirebaseDatabase firebase;
+    DatabaseReference databaseReference;
+    ArrayList<Ticket> listOfTickets;
+    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +39,50 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         asNeeded();
         init();
+        setListeners();
 
-
+        listOfTickets = new ArrayList<>();
+        adapter = new CustomTicketAdapter(this, R.layout.custom_list_item, listOfTickets);
+        listOfTags.setAdapter(adapter);
 
     }
 
+    private void setListeners() {
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                ticket = dataSnapshot.getValue(Ticket.class);
+                listOfTickets.add(ticket);
+                listOfTags.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                //listView.append(String.valueOf(proxducts.getName()) + "\n");
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                recreate();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void init() {
+        firebase = FirebaseDatabase.getInstance();
+        databaseReference = firebase.getReference("tickets");
         listOfTags = (ListView) findViewById(R.id.listOfTegs);
     }
 
