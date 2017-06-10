@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
@@ -47,6 +49,8 @@ public class AddTicketActivity extends AppCompatActivity{
     String ytLink;
     String fbLink;
     String wsLink;
+    ArrayList<Author> authorArrayList;
+    CustomAddAuthorAdapter authorAdapter;
 
 
     @Override
@@ -146,6 +150,13 @@ public class AddTicketActivity extends AppCompatActivity{
                 startActivityForResult(intent, 1);
             }
         });
+        authorsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                authorArrayList.remove(position);
+                authorAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -156,7 +167,7 @@ public class AddTicketActivity extends AppCompatActivity{
         ArrayList<Integer> photos = data.getIntegerArrayListExtra("photo");
         Log.v("Authors", "authors to show: " + names.toString());
         Log.v("Authors", "photos to show: " + photos.toString());
-        ArrayList<Author> authorArrayList = new ArrayList<>();
+        authorArrayList = new ArrayList<>();
         Author selectedAuthor;
         for (int i = 0; i < names.size(); i ++){
             selectedAuthor = new Author(names.get(i), photos.get(i));
@@ -164,7 +175,8 @@ public class AddTicketActivity extends AppCompatActivity{
             Log.v("Authors", "selected author: " + selectedAuthor.toString());
         }
         Log.v("Authors", "authors: " + authorArrayList.toString());
-        authorsGridView.setAdapter(new CustomAddAuthorAdapter(this, R.layout.authors_listview_item, authorArrayList));
+        authorAdapter = new CustomAddAuthorAdapter(this, R.layout.authors_listview_item, authorArrayList);
+        authorsGridView.setAdapter(authorAdapter);
     }
 
     protected Dialog onCreateDialog(int id) {
