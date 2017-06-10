@@ -17,46 +17,51 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/saveTicketButton"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right|center_horizontal|clip_vertical"
             android:layout_marginTop="8dp"
-            android:orientation="vertical">
+            android:layout_weight="2"
+            android:text="save"
+            android:textColor="@color/whiteColor" />
 
-            <Button
-                android:id="@+id/saveTicketButton"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="2">
+
+            <EditText
+                android:id="@+id/ticketTitleText"
+                android:layout_width="268dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/ticketAddLink"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:hint="Enter title..."
+                android:inputType="textPersonName"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/whiteColor"
+                android:textCursorDrawable="@null"
+                android:textSize="14dp" />
+
+            <ImageButton
+                android:id="@+id/ticketAddLink"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_horizontal|clip_vertical"
-                android:layout_weight="2"
-                android:text="save"
-                android:textColor="@color/whiteColor" />
+                android:layout_width="88dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/link_variant" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="2"
-                android:orientation="vertical">
+        </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/ticketTitleText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:hint="Enter title..."
-                    android:inputType="textPersonName"
-                    android:textColor="@color/whiteColor"
-                    android:textColorHint="@color/whiteColor"
-                    android:textCursorDrawable="@null"
-                    android:textSize="14dp" />
-            </LinearLayout>
-
-        </LinearLayout>
 
     </LinearLayout>
 
@@ -68,9 +73,11 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,11 +159,16 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="8dp">
+                    <Space
+                        android:layout_width="49dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true" />
 
                     <EditText
                         android:id="@+id/ticketDescriptionText"
@@ -291,6 +303,7 @@
                         android:layout_marginLeft="49dp"
                         android:background="@android:color/transparent"
                         android:hint="Fee..."
+                        android:inputType="numberDecimal"
                         android:textColor="@color/blackColor"
                         android:textSize="14dp" />
 
@@ -423,8 +436,11 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="49dp"
                         android:background="@android:color/transparent"
-                        android:textSize="14dp"
-                        android:hint="Comment..."/>
+                        android:gravity="top|left"
+                        android:hint="Comment..."
+                        android:lines="8"
+                        android:minLines="3"
+                        android:textSize="14dp" />
 
                 </LinearLayout>
 
