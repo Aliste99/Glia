@@ -35,12 +35,12 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket>{
         TextView name = (TextView) listViewItem.findViewById(R.id.name);
         TextView tag = (TextView) listViewItem.findViewById(R.id.tagText);
         TextView description = (TextView) listViewItem.findViewById(R.id.description);
-        TextView views = (TextView) listViewItem.findViewById(R.id.views);
+       // TextView views = (TextView) listViewItem.findViewById(R.id.views);
 
         name.setText(ticket.getTicketTitle());
         tag.setText(ticket.getTicketTag());
         description.setText(ticket.getTicketDescription());
-        views.setText("12563");
+        //views.setText("12563");
 
         return listViewItem;
     }
