@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private void setListeners() {
-        /*databaseReference.addChildEventListener(new ChildEventListener() {
+        databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ticket = dataSnapshot.getValue(Ticket.class);
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });*/
+        });
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity
 
     private void init() {
         firebase = FirebaseDatabase.getInstance();
-        databaseReference = firebase.getReference("posts");
+        databaseReference = firebase.getReference("tickets");
         listOfTags = (ListView) findViewById(R.id.listOfTegs);
         fbLoginButton = (LoginButton)findViewById(R.id._fb_login);
     }
@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity
 
     private void saveToFireBase() {
         for(Post post : postList){
-            databaseReference.child(post.getId()).setValue(post);
+            databaseReference.getRoot().child("Posts").child(post.getId()).setValue(post);
         }
     }
 
