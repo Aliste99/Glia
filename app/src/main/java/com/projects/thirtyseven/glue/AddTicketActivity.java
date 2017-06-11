@@ -241,6 +241,15 @@ public class AddTicketActivity extends AppCompatActivity{
                         ArrayAdapter adapter;
                         adapter = new CustomFbAdapter(dialog.getContext(), R.layout.custom_list_of_links, fbList);
                         listOfLinks.setAdapter(adapter);
+                        listOfLinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Post postToConnect = fbList.get(position);
+                                postToConnect.setConnected(true);
+                                postsDatabaseReference.child(postToConnect.getId()).setValue(postToConnect);
+                                Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
                 });
                 ytButton.setOnClickListener(new View.OnClickListener() {

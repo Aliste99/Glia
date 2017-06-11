@@ -14,17 +14,19 @@ public class Post {
     private int wowCount;
     private int sadCount;
     private int angryCount;
+    private boolean isConnected;
 
     public Post(){
 
     }
 
-    public Post(String name, String message, int sharesCount, String id, String url) {
+    public Post(String name, String message, int sharesCount, String id, String url, boolean isConnected) {
         this.name = name;
         this.message = message;
         this.sharesCount = sharesCount;
         this.id = id;
         this.url = url;
+        this.isConnected = isConnected;
     }
 
     public String getName() {
@@ -129,5 +131,13 @@ public class Post {
 
     public void setAngryCount(int angryCount) {
         this.angryCount = angryCount;
+    }
+
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(boolean connected) {
+        isConnected = connected;
     }
 }
