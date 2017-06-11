@@ -74,7 +74,7 @@ public class AddTicketActivity extends AppCompatActivity{
 
     private void setSpinnerAdapter() {
         final ArrayList<ItemData> list = new ArrayList<>();
-        list.add(new ItemData("Текст написан", R.drawable.red_tag));
+        list.add(new ItemData(getString(R.string.text_wrote), R.drawable.red_tag));
         list.add(new ItemData("Текст проверен", R.drawable.green_tag));
         list.add(new ItemData("Видео собрано", R.drawable.blue_tag));
         list.add(new ItemData("Видео смонтированно", R.drawable.orange_tag));
@@ -169,8 +169,6 @@ public class AddTicketActivity extends AppCompatActivity{
                 dialog.show();
 
             }
-
-
         });
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +180,7 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketTag(ticketTag.getText().toString());
                 ticket.setTicketCategory(ticketCategory.getText().toString());
                 ticket.setTicketDescription(ticketDescription.getText().toString());
-                ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
+                ticket.setTicketTaskProfession(ticketTaskProfession.getText     ().toString());
                 ticket.setTicketTaskCoWorker(ticketTaskCoWorker.getText().toString());
                 ticket.setTicketTaskFee(ticketTaskFee.getText().toString());
                 ticket.setTicketExpenses(ticketExpenses.getText().toString());
