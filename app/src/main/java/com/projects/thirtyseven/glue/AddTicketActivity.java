@@ -85,7 +85,7 @@ public class AddTicketActivity extends AppCompatActivity{
         databaseReference = database.getReference("tickets");
         fbRef = database.getReference("facebook");
         youTubeRef = database.getReference("youtube");
-        linkRef = database.getReference("link");
+        linkRef = database.getReference();
 
         fbItem = new FBItem();
 
@@ -111,12 +111,13 @@ public class AddTicketActivity extends AppCompatActivity{
         fbRef.push().setValue(fbItem);*/
         fbList = new ArrayList<>();
 
-
-        fbRef.addChildEventListener(new ChildEventListener() {
+        linkRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                fbItem = dataSnapshot.getValue(FBItem.class);
+                fbItem = dataSnapshot.child("facebook").getValue(FBItem.class);
                 fbList.add(fbItem);
+                linkItem = dataSnapshot.child("web").getValue(LinkItem.class);
+                linkList.add(linkItem);
             }
 
             @Override
