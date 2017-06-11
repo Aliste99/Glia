@@ -149,12 +149,12 @@ public class AddTicketActivity extends AppCompatActivity{
     private void setSpinnerAdapter() {
         final ArrayList<ItemData> list = new ArrayList<>();
         list.add(new ItemData(getString(R.string.text_wrote), R.drawable.red_tag));
-        list.add(new ItemData("Текст проверен", R.drawable.green_tag));
-        list.add(new ItemData("Видео собрано", R.drawable.blue_tag));
-        list.add(new ItemData("Видео смонтированно", R.drawable.orange_tag));
-        list.add(new ItemData("Кэпшн написан", R.drawable.pink_tag));
-        list.add(new ItemData("Кэпшн проверен", R.drawable.dark_green_tag));
-        list.add(new ItemData("Одобрить с гл.Ред.", R.drawable.black_tag));
+        list.add(new ItemData(getString(R.string.text_checked), R.drawable.green_tag));
+        list.add(new ItemData(getString(R.string.video_collected), R.drawable.blue_tag));
+        list.add(new ItemData(getString(R.string.video_mounted), R.drawable.orange_tag));
+        list.add(new ItemData(getString(R.string.caption_wrote), R.drawable.pink_tag));
+        list.add(new ItemData(getString(R.string.caption_checked), R.drawable.dark_green_tag));
+        list.add(new ItemData(getString(R.string.approval_with_the_editor), R.drawable.black_tag));
         SpinnerAdapter adapter = new SpinnerAdapter(this,
                 R.layout.spinner_custom_layout, R.id.tagText, list);
         tagSpinner.setAdapter(adapter);
@@ -255,12 +255,9 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketTag(tag);
                 ticket.setTicketCategory(ticketCategory.getText().toString());
                 ticket.setTicketDescription(ticketDescription.getText().toString());
-<<<<<<< HEAD
-                ticket.setTicketTaskProfession(ticketTaskProfession.getText     ().toString());
-                ticket.setTicketTaskCoWorker(ticketTaskCoWorker.getText().toString());
-=======
                 ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
->>>>>>> 9616420b6c324b0c84d8bbe7a7f66509d140d7fc
+                ticket.setTicketTaskCoWorker(ticketTaskCoWorker.getText().toString());
+                ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
                 ticket.setTicketTaskFee(ticketTaskFee.getText().toString());
                 ticket.setTicketExpenses(ticketExpenses.getText().toString());
                 ticket.setTicketSpending(ticketSpending.getText().toString());

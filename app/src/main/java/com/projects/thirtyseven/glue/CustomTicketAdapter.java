@@ -46,14 +46,24 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
 
         name.setText(ticket.getTicketTitle());
         category.setText(getTagText);
-        String tagText = context.getString(R.string.text_wrote);
 
         tagView.setImageResource(R.drawable.bookmark);
 
-        if (tagText.equalsIgnoreCase(getTagText )){
+        if (getTagText.equalsIgnoreCase(context.getString(R.string.text_wrote)))
+            tagView.setColorFilter(ContextCompat.getColor(context, R.color.redColor));
+        else if (getTagText.equalsIgnoreCase(context.getString(R.string.text_checked)))
+            tagView.setColorFilter(ContextCompat.getColor(context, R.color.greenColor));
+        else if (getTagText.equalsIgnoreCase(context.getString(R.string.video_collected)))
+            tagView.setColorFilter(ContextCompat.getColor(context, R.color.blueColor));
+        else if (getTagText.equalsIgnoreCase(context.getString(R.string.video_mounted)))
+            tagView.setColorFilter(ContextCompat.getColor(context, R.color.orangeColor));
+        else if (getTagText.equalsIgnoreCase(context.getString(R.string.caption_wrote)))
+            tagView.setColorFilter(ContextCompat.getColor(context, R.color.pinkColor));
+        else if (getTagText.equalsIgnoreCase(context.getString(R.string.caption_checked)))
+            tagView.setColorFilter(ContextCompat.getColor(context, R.color.darkGreenColor));
+        else if (getTagText.equalsIgnoreCase(context.getString(R.string.approval_with_the_editor)))
             tagView.setColorFilter(ContextCompat.getColor(context, R.color.blackColor));
-        }else
-            tagView.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+        else tagView.setColorFilter(ContextCompat.getColor(context, R.color.greyColorLight));
 
         description.setText(ticket.getTicketDescription());
         //views.setText("12563");
