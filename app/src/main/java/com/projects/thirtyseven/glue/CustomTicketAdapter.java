@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CustomTicketAdapter extends ArrayAdapter<Ticket>{
+public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
 
     private Context context;
 
@@ -31,15 +31,36 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket>{
         }
 
         Ticket ticket = getItem(position);
+        Post fbPost;
+        ArrayList<Author> authorArrayList = ticket.getAuthor();
 
         TextView name = (TextView) listViewItem.findViewById(R.id.name);
         TextView tag = (TextView) listViewItem.findViewById(R.id.tagText);
         TextView description = (TextView) listViewItem.findViewById(R.id.description);
-       // TextView views = (TextView) listViewItem.findViewById(R.id.views);
+        TextView youtubeViews = (TextView) listViewItem.findViewById(R.id.youtubeViews);
+        TextView fbViews = (TextView) listViewItem.findViewById(R.id.fbViews);
+        TextView siteViews = (TextView) listViewItem.findViewById(R.id.siteViews);
+        TextView date = (TextView) listViewItem.findViewById(R.id.date);
+        TextView time = (TextView) listViewItem.findViewById(R.id.time);
+        TextView author = (TextView) listViewItem.findViewById(R.id.author);
 
+        author.setText("");
         name.setText(ticket.getTicketTitle());
         tag.setText(ticket.getTicketTag());
         description.setText(ticket.getTicketDescription());
+        date.setText(ticket.getTicketDate());
+        time.setText(ticket.getTicketTime());
+        if (authorArrayList != null) {
+            int i = 0;
+            for (Author a :
+                    authorArrayList) {
+                if (i != 0)
+                    author.append(", " + a.getName());
+                else
+                    author.append(a.getName());
+                i++;
+            }
+        }
         //views.setText("12563");
 
         return listViewItem;
