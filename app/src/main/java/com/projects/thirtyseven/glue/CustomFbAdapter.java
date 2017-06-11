@@ -12,13 +12,13 @@ import android.widget.TextView;
 import java.security.AccessControlContext;
 import java.util.ArrayList;
 
-public class CustomFbAdapter extends ArrayAdapter<FBItem> {
+public class CustomFbAdapter extends ArrayAdapter<Post> {
 
     Context context;
 
 
 
-    public CustomFbAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<FBItem> fb) {
+    public CustomFbAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<Post> fb) {
         super(context, 0, fb);
         this.context = context;
     }
@@ -29,11 +29,11 @@ public class CustomFbAdapter extends ArrayAdapter<FBItem> {
         if (listViewItem == null)
             listViewItem = LayoutInflater.from(context).inflate(R.layout.custom_list_of_links, parent, false);
 
-        FBItem fbItem = getItem(position);
+        Post fbPost = getItem(position);
         TextView title = (TextView) listViewItem.findViewById(R.id.linkTitle);
 
 
-        title.setText(fbItem.getTitle());
+        title.setText(fbPost.getName());
 
         return listViewItem;
     }

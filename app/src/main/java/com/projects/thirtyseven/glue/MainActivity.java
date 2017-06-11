@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity
 
     private void saveToFireBase() {
         for(Post post : postList){
-            databaseReference.getRoot().child("Posts").child(post.getId()).setValue(post);
+            databaseReference.getRoot().child("posts").child(post.getId()).setValue(post);
         }
         new RefreshTask().execute();
     }

@@ -49,7 +49,7 @@ public class AddTicketActivity extends AppCompatActivity{
     GridView authorsGridView;
     ListView listOfLinks;
     ImageButton fbButton, ytButton, linkButton;
-    FBItem fbItem;
+    Post fbPost;
     YTItem youtubeItem;
     LinkItem linkItem;
     View.OnClickListener onClickListener;
@@ -66,7 +66,7 @@ public class AddTicketActivity extends AppCompatActivity{
     CustomAddAuthorAdapter authorAdapter;
     Spinner tagSpinner;
     String ytLink, fbLink, wsLink;
-    ArrayList<FBItem> fbList;
+    ArrayList<Post> fbList;
     ArrayList<YTItem> ytList;
     ArrayList<LinkItem> linkList;
     String tag;
@@ -82,12 +82,13 @@ public class AddTicketActivity extends AppCompatActivity{
         getSupportActionBar().hide();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("tickets");
-        fbRef = database.getReference("facebook");
-        youTubeRef = database.getReference("youtube");
-        linkRef = database.getReference();
+        databaseReference = database.getReference("posts");
 
-        fbItem = new FBItem();
+        fbPost = new Post();
+
+        ytList = new ArrayList<>();
+        linkList = new ArrayList<>();
+        fbList = new ArrayList<>();
 
        /* fbItem.setTitle("Демонстранты из Нарына извинились перед студентами и преподавателями УЦА");
         fbItem.setText("Группа жителей Нарына извинилась перед преподавателями Университета Центральной Азии. Днем ранее они заставили студентов вуза на коленях просить прощения за драку на соревновании по баскетболу.\n" +
@@ -109,15 +110,14 @@ public class AddTicketActivity extends AppCompatActivity{
         fbItem.setShares("13");
 
         fbRef.push().setValue(fbItem);*/
-        fbList = new ArrayList<>();
 
-        linkRef.addChildEventListener(new ChildEventListener() {
+        databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                fbItem = dataSnapshot.child("facebook").getValue(FBItem.class);
-                fbList.add(fbItem);
-                linkItem = dataSnapshot.child("web").getValue(LinkItem.class);
-                linkList.add(linkItem);
+                fbPost = dataSnapshot.getValue(Post.class);
+                fbList.add(fbPost);
+                /*linkItem = dataSnapshot.child("web").getValue(LinkItem.class);
+                linkList.add(linkItem);*/
             }
 
             @Override
@@ -211,9 +211,6 @@ public class AddTicketActivity extends AppCompatActivity{
                         dialog.hide();
                     }
                 });
-
-                ytList = new ArrayList<>();
-                linkList = new ArrayList<>();
 
                 fbButton.setOnClickListener(new View.OnClickListener() {
                     @Override
