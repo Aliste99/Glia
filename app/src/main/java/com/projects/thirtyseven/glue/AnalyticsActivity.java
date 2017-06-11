@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiver;
@@ -118,15 +119,20 @@ public class AnalyticsActivity extends AppCompatActivity {
                 AnalyticsReportingScopes.all()).setDataStoreFactory(dataStoreFactory)
                 .build();
         String url = flow.newAuthorizationUrl().setRedirectUri("http://localhost").build();
+        TokenResponse tokenResponse = flow.newTokenRequest(receiveTokenCode());
         Log.i("Glia", url);
         // Authorize.
-        LocalServerReceiver receiver = new LocalServerReceiver();
+        WebViewReceiver receiver = new WebViewReceiver();
         AuthorizationCodeInstalledApp authCodeInstalledApp = new AuthorizationCodeInstalledApp(flow,
                 receiver);
         Credential credential = authCodeInstalledApp.authorize("user");
         // Construct the Analytics Reporting service object.
         return new AnalyticsReporting.Builder(httpTransport, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME).build();
+    }
+
+    private static String receiveTokenCode() {
+        return null;
     }
 
     /**
