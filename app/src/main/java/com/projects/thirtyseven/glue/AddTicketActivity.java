@@ -3,6 +3,7 @@ package com.projects.thirtyseven.glue;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddTicketActivity extends AppCompatActivity{
-    TextView ticketDate, ticketTime, ticketTag;
+    TextView ticketDate, ticketTime, ticketTag, ticketAttachments;
     EditText ticketCategory, ticketDescription, ticketTaskProfession, ticketTaskCoWorker,
             ticketTaskFee, ticketExpenses, ticketSpending, ticketComment, ticketTitle;
     Button saveButton;
@@ -53,6 +54,7 @@ public class AddTicketActivity extends AppCompatActivity{
     ArrayList<LinkItem> linkList;
     Dialog dialog;
     Button buttonDone;
+    private int  PICK_IMAGE = 1;
 
 
     @Override
@@ -171,8 +173,6 @@ public class AddTicketActivity extends AppCompatActivity{
 
         });
 
-
-
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,6 +191,19 @@ public class AddTicketActivity extends AppCompatActivity{
                 databaseReference.push().setValue(ticket);
             }
         });
+
+//        ticketAttachments.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//                getIntent.setType("image/*");
+//                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                pickIntent.setType("image/*");
+//                Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+//                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+//                startActivityForResult(chooserIntent, PICK_IMAGE);
+//            }
+//        });
     }
 
     private void dialogInit(Dialog dialog) {
@@ -248,6 +261,7 @@ public class AddTicketActivity extends AppCompatActivity{
         ticketDate = (TextView) findViewById(R.id.ticketDateText);
         ticketTime = (TextView) findViewById(R.id.ticketTimeText);
         ticketTitle = (EditText) findViewById(R.id.ticketTitleText);
+        //ticketAttachments = (TextView) findViewById(R.id.ticketAttachments);
         ticketCategory = (EditText) findViewById(R.id.ticketCategoryText);
         ticketDescription = (EditText) findViewById(R.id.ticketDescriptionText);
         ticketTaskProfession = (EditText) findViewById(R.id.ticketProfessionText);
