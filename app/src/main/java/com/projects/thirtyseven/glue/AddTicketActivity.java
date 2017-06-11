@@ -3,22 +3,31 @@ package com.projects.thirtyseven.glue;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
@@ -31,13 +40,19 @@ public class AddTicketActivity extends AppCompatActivity{
     EditText ticketCategory, ticketDescription, ticketTaskProfession, ticketTaskCoWorker,
             ticketTaskFee, ticketExpenses, ticketSpending, ticketComment, ticketTitle;
     Button saveButton;
+    Button addAuthorButton;
 
     FirebaseDatabase database;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, fbRef, youTubeRef, linkRef;
     Ticket ticket;
     ImageButton ticketAddLink;
+    GridView authorsGridView;
     ListView listOfLinks;
     ImageButton fbButton, ytButton, linkButton;
+    FBItem fbItem;
+    YTItem youtubeItem;
+    LinkItem linkItem;
+    View.OnClickListener onClickListener;
 
     int DIALOG_DATE = 1;
     int DIALOG_TIME = 2;
@@ -47,11 +62,14 @@ public class AddTicketActivity extends AppCompatActivity{
     int myDay = c.get(Calendar.DAY_OF_MONTH);
     int myHour = c.get(Calendar.HOUR);
     int myMinute = c.get(Calendar.MINUTE);
+    ArrayList<Author> authorArrayList;
+    CustomAddAuthorAdapter authorAdapter;
     Spinner tagSpinner;
     String ytLink, fbLink, wsLink;
     ArrayList<FBItem> fbList;
     ArrayList<YTItem> ytList;
     ArrayList<LinkItem> linkList;
+    String tag;
     Dialog dialog;
     Button buttonDone;
     private int  PICK_IMAGE = 1;
@@ -65,6 +83,62 @@ public class AddTicketActivity extends AppCompatActivity{
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("tickets");
+        fbRef = database.getReference("facebook");
+        youTubeRef = database.getReference("youtube");
+        linkRef = database.getReference("link");
+
+        fbItem = new FBItem();
+
+       /* fbItem.setTitle("Демонстранты из Нарына извинились перед студентами и преподавателями УЦА");
+        fbItem.setText("Группа жителей Нарына извинилась перед преподавателями Университета Центральной Азии. Днем ранее они заставили студентов вуза на коленях просить прощения за драку на соревновании по баскетболу.\n" +
+                "\n" +
+                "Жители Нарына снова пришли в УЦА, но на этот раз сами попросили прощения у его преподавателей. Молодые люди заявили, что конфликт произошел из-за «недоразумения и недопонимания».\n" +
+                "\n" +
+                "Молодежные активисты города Нарын подарили преподавателям подарки.\n" +
+                "\n" +
+                "«Двум сотрудникам университета, в том числе преподавателю, который вчера попросил извинения за своих студентов, представители местной молодежи надели национальный головной убор “ак-калпак” и подарили две книги эпоса “Манас” в знак уважения», — сообщает пресс-служба МВД.\n" +
+                "\n" +
+                "Руководство вуза и его преподаватели считают, что инцидент исчерпан, и надеются, что и дальше смогут мирно взаимодействовать с местными жителями.\n" +
+                "\n" +
+                "На встрече местных жителей и студентов присутствовали руководство УВД, полпред Нарынской области и деканы университета.\n" +
+                "\n" +
+                "Ранее МВД возбудило уголовное дело по статье «Хулиганство» против местных жителей, вынудивших студентов и преподавателей просить прощения на коленях. Их обвиняют в нарушении общественного порядка.");
+        fbItem.setURL("https://kloop.kg/blog/2017/06/09/ak-kalpak-i-manas-demonstranty-iz-naryna-izvinilis-pered-studentami-i-prepodavatelyami-utsa/");
+        fbItem.setReachedTotal("1564");
+        fbItem.setReachedUnique("1137");
+        fbItem.setShares("13");
+
+        fbRef.push().setValue(fbItem);*/
+        fbList = new ArrayList<>();
+
+
+        fbRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                fbItem = dataSnapshot.getValue(FBItem.class);
+                fbList.add(fbItem);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         init();
         setCurrentTime();
@@ -88,6 +162,7 @@ public class AddTicketActivity extends AppCompatActivity{
             public void onItemSelected(AdapterView<?> parent,
                                        View itemSelected, int selectedItemPosition, long selectedId) {
                 ItemData itemData = list.get(selectedItemPosition);
+                tag = itemData.getText();
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -136,35 +211,35 @@ public class AddTicketActivity extends AppCompatActivity{
                     }
                 });
 
-                fbList = new ArrayList<>();
                 ytList = new ArrayList<>();
                 linkList = new ArrayList<>();
 
-                View.OnClickListener onClickListener = new View.OnClickListener() {
+                fbButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(AddTicketActivity.this, "fb", Toast.LENGTH_SHORT).show();
+                        ArrayAdapter adapter;
+                        adapter = new CustomFbAdapter(dialog.getContext(), R.layout.custom_list_of_links, fbList);
+                        listOfLinks.setAdapter(adapter);
+                    }
+                });
+                ytButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(AddTicketActivity.this, "yt", Toast.LENGTH_SHORT).show();
+                        ArrayAdapter adapter;
+                        adapter = new CustomYouTubeAdapter(dialog.getContext(), R.layout.custom_list_of_links, ytList);
+                        listOfLinks.setAdapter(adapter);
+                    }
+                });
+                linkButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ArrayAdapter adapter;
-                        switch (v.getId()){
-                            case R.id.fbButton:
-                                adapter = new CustomFbAdapter(getApplicationContext(), R.layout.custom_list_of_links, fbList);
-                                break;
-                            case R.id.ytButton:
-                                adapter = new CustomYouTubeAdapter(getApplicationContext(), R.layout.custom_list_of_links, ytList);
-                                break;
-                            case R.id.linkButton:
-                                adapter = new CustomLinksAdapter(getApplicationContext(), R.layout.custom_list_of_links, linkList);
-                                break;
-                            default:
-                                adapter = new CustomFbAdapter(getApplicationContext(), R.layout.custom_list_of_links, fbList);
-                                break;
-                        }
+                        adapter = new CustomLinksAdapter(dialog.getContext(), R.layout.custom_list_of_links, linkList);
                         listOfLinks.setAdapter(adapter);
                     }
-                };
-
-                fbButton.setOnClickListener(onClickListener);
-                ytButton.setOnClickListener(onClickListener);
-                linkButton.setOnClickListener(onClickListener);
+                });
 
                 dialog.show();
 
@@ -177,11 +252,15 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketTitle(ticketTitle.getText().toString());
                 ticket.setTicketDate(ticketDate.getText().toString());
                 ticket.setTicketTime(ticketTime.getText().toString());
-                ticket.setTicketTag(ticketTag.getText().toString());
+                ticket.setTicketTag(tag);
                 ticket.setTicketCategory(ticketCategory.getText().toString());
                 ticket.setTicketDescription(ticketDescription.getText().toString());
+<<<<<<< HEAD
                 ticket.setTicketTaskProfession(ticketTaskProfession.getText     ().toString());
                 ticket.setTicketTaskCoWorker(ticketTaskCoWorker.getText().toString());
+=======
+                ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
+>>>>>>> 9616420b6c324b0c84d8bbe7a7f66509d140d7fc
                 ticket.setTicketTaskFee(ticketTaskFee.getText().toString());
                 ticket.setTicketExpenses(ticketExpenses.getText().toString());
                 ticket.setTicketSpending(ticketSpending.getText().toString());
@@ -189,6 +268,40 @@ public class AddTicketActivity extends AppCompatActivity{
                 databaseReference.push().setValue(ticket);
             }
         });
+        addAuthorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddTicketActivity.this, AddAuthorActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+        authorsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                authorArrayList.remove(position);
+                authorAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) return;
+        ArrayList<String> names = data.getStringArrayListExtra("name");
+        ArrayList<Integer> photos = data.getIntegerArrayListExtra("photo");
+        Log.v("Authors", "authors to show: " + names.toString());
+        Log.v("Authors", "photos to show: " + photos.toString());
+        authorArrayList = new ArrayList<>();
+        Author selectedAuthor;
+        for (int i = 0; i < names.size(); i ++){
+            selectedAuthor = new Author(names.get(i), photos.get(i));
+            authorArrayList.add(selectedAuthor);
+            Log.v("Authors", "selected author: " + selectedAuthor.toString());
+        }
+        Log.v("Authors", "authors: " + authorArrayList.toString());
+        authorAdapter = new CustomAddAuthorAdapter(this, R.layout.authors_listview_item, authorArrayList);
+        authorsGridView.setAdapter(authorAdapter);
 
 //        ticketAttachments.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -263,13 +376,14 @@ public class AddTicketActivity extends AppCompatActivity{
         ticketCategory = (EditText) findViewById(R.id.ticketCategoryText);
         ticketDescription = (EditText) findViewById(R.id.ticketDescriptionText);
         ticketTaskProfession = (EditText) findViewById(R.id.ticketProfessionText);
-        ticketTaskCoWorker = (EditText) findViewById(R.id.ticketCoWorkerText);
         ticketTaskFee = (EditText) findViewById(R.id.ticketTaskFeeText);
         ticketExpenses = (EditText) findViewById(R.id.ticketExpensesNameText);
         ticketSpending = (EditText) findViewById(R.id.ticketSpendingText);
         ticketComment = (EditText) findViewById(R.id.ticketCommentText);
         saveButton = (Button) findViewById(R.id.saveTicketButton);
         ticketAddLink = (ImageButton) findViewById(R.id.ticketAddLink);
+        addAuthorButton = (Button) findViewById(R.id.addAuthorButton);
+        authorsGridView = (GridView)findViewById(R.id.authorsGridView);
         tagSpinner = (Spinner) findViewById(R.id.tagSpinner);
     }
 

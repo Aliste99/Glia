@@ -164,11 +164,12 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="8dp">
+
                     <Space
                         android:layout_width="49dp"
                         android:layout_height="25dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentStart="true" />
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true" />
 
                     <EditText
                         android:id="@+id/ticketDescriptionText"
@@ -248,7 +249,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="25dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:src="@drawable/clipboard_check" />
 
@@ -267,29 +268,6 @@
                         android:textSize="14dp" />
 
                 </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="8dp">
-
-                    <EditText
-                        android:id="@+id/ticketCoWorkerText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="49dp"
-                        android:background="@android:color/transparent"
-                        android:hint="Co-worker..."
-                        android:textColor="@color/blackColor"
-                        android:textSize="14dp" />
-
-
-                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -316,6 +294,41 @@
                 </RelativeLayout>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/ticket_background">
+
+
+                <GridView
+                    android:id="@+id/authorsGridView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:columnWidth="90dp"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="10dp"
+                    android:horizontalSpacing="10dp"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="8dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginLeft="8dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/addAuthorButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:text="@string/add_author" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

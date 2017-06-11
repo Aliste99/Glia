@@ -7,6 +7,19 @@ package com.projects.thirtyseven.glue;
 class LinkItem {
 
     private String title;
+    private String URL;
+
+    public String getURL() {
+        return URL;
+    }
+
+    public void setURL(String URL) {
+        this.URL = URL;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getTitle() {
         return title;
