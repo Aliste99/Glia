@@ -12,7 +12,6 @@ import android.widget.Button;
 
 public class AuthActivity extends AppCompatActivity {
     Button skipAuthButton;
-    Button refreshButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +30,10 @@ public class AuthActivity extends AppCompatActivity {
             }
         });
 
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new RefreshTask().execute();
-            }
-        });
     }
 
     private void init() {
         skipAuthButton = (Button)findViewById(R.id.skipAuthButton);
-        refreshButton = (Button)findViewById(R.id.buttonRefresh);
     }
 
 
@@ -52,23 +44,5 @@ public class AuthActivity extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(AuthActivity.this, R.color.greyColor));
     }
 
-    private class RefreshTask extends AsyncTask<Integer, Integer, Integer> {
-        protected Integer doInBackground(Integer... num) {
 
-            ContentRefresher refresher = new ContentRefresher();
-            refresher.refreshWeb();
-            return 0;
-        }
-
-        protected void onProgressUpdate(Integer... progress) {
-
-        }
-
-        protected void onPostExecute(Integer result) {
-
-            refreshButton.setText("DONE");
-        }
-
-
-    }
 }

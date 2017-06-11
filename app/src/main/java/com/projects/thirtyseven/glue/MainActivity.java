@@ -1,6 +1,7 @@
 package com.projects.thirtyseven.glue;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -37,8 +38,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -268,6 +275,50 @@ public class MainActivity extends AppCompatActivity
         for(Post post : postList){
             databaseReference.getRoot().child("Posts").child(post.getId()).setValue(post);
         }
+        new RefreshTask().execute();
+    }
+
+    public void refreshWeb() {
+        FeedParser parser = new FeedParser();
+        List<FeedParser.Entry> entries = null;
+        InputStream input = null;
+        try {
+            input = new URL("https://kloop.kg/feed/atom/").openStream();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            entries = parser.parse(input);
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        for (FeedParser.Entry entry : entries){
+            String hashId = String.valueOf(entry.id.hashCode());
+            databaseReference.getRoot().child("web").child(hashId).setValue(entry);
+        }
+    }
+    private class RefreshTask extends AsyncTask<Integer, Integer, Integer> {
+        protected Integer doInBackground(Integer... num) {
+
+            refreshWeb();
+            return 0;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        protected void onPostExecute(Integer result) {
+
+        }
+
+
     }
 
     private void getPostsInfo() {
