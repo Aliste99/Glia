@@ -6,16 +6,21 @@ import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddTicketActivity extends AppCompatActivity{
@@ -40,6 +45,7 @@ public class AddTicketActivity extends AppCompatActivity{
     String ytLink;
     String fbLink;
     String wsLink;
+    Spinner tagSpinner;
 
 
     @Override
@@ -54,6 +60,29 @@ public class AddTicketActivity extends AppCompatActivity{
         init();
         setCurrentTime();
         setOnClickLiteners();
+        setSpinnerAdapter();
+    }
+
+    private void setSpinnerAdapter() {
+        final ArrayList<ItemData> list = new ArrayList<>();
+        list.add(new ItemData("Текст написан", R.drawable.red_tag));
+        list.add(new ItemData("Текст проверен", R.drawable.green_tag));
+        list.add(new ItemData("Видео собрано", R.drawable.blue_tag));
+        list.add(new ItemData("Видео смонтированно", R.drawable.orange_tag));
+        list.add(new ItemData("Кэпшн написан", R.drawable.pink_tag));
+        list.add(new ItemData("Кэпшн проверен", R.drawable.dark_green_tag));
+        list.add(new ItemData("Одобрить с гл.Ред.", R.drawable.black_tag));
+        SpinnerAdapter adapter = new SpinnerAdapter(this,
+                R.layout.spinner_custom_layout, R.id.tagText, list);
+        tagSpinner.setAdapter(adapter);
+        tagSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent,
+                                       View itemSelected, int selectedItemPosition, long selectedId) {
+                ItemData itemData = list.get(selectedItemPosition);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void setCurrentTime() {
@@ -128,7 +157,6 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketExpenses(ticketExpenses.getText().toString());
                 ticket.setTicketSpending(ticketSpending.getText().toString());
                 ticket.setTicketComment(ticketComment.getText().toString());
-
                 databaseReference.push().setValue(ticket);
             }
         });
@@ -179,7 +207,6 @@ public class AddTicketActivity extends AppCompatActivity{
         ticket = new Ticket();
         ticketDate = (TextView) findViewById(R.id.ticketDateText);
         ticketTime = (TextView) findViewById(R.id.ticketTimeText);
-        ticketTag = (TextView) findViewById(R.id.chooseTheTag);
         ticketTitle = (EditText) findViewById(R.id.ticketTitleText);
         ticketCategory = (EditText) findViewById(R.id.ticketCategoryText);
         ticketDescription = (EditText) findViewById(R.id.ticketDescriptionText);
@@ -191,6 +218,7 @@ public class AddTicketActivity extends AppCompatActivity{
         ticketComment = (EditText) findViewById(R.id.ticketCommentText);
         saveButton = (Button) findViewById(R.id.saveTicketButton);
         ticketAddLink = (ImageButton) findViewById(R.id.ticketAddLink);
+        tagSpinner = (Spinner) findViewById(R.id.tagSpinner);
     }
 
 }

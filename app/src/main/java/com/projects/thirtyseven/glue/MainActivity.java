@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         listOfTags.setAdapter(adapter);
 
     }
+
+
 
     private void setListeners() {
         databaseReference.addChildEventListener(new ChildEventListener() {
@@ -139,7 +142,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_sort_by) {
             return true;
         }
-        else if (id == R.id.action_source){
+        else if (id == R.id.action_source) {
             return true;
         }
 
