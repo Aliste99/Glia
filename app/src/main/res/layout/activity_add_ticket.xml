@@ -194,36 +194,41 @@
                 android:background="@drawable/ticket_background"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="16dp">
 
                     <ImageView
+                        android:id="@+id/imageView3"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/tag_multiple" />
 
                     <Space
-                        android:layout_width="24dp"
-                        android:layout_height="wrap_content" />
+                        android:id="@+id/space"
+                        android:layout_width="15dp"
+                        android:layout_height="24dp"
+                        android:layout_alignBottom="@+id/imageView3"
+                        android:layout_toEndOf="@+id/imageView3" />
 
-                    <TextView
-                        android:id="@+id/chooseTheTag"
-                        android:layout_width="wrap_content"
+                    <Spinner
+                        android:id="@+id/tagSpinner"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:text="Choose the Tag"
-                        android:textColor="@color/blackColor"
-                        android:textSize="14dp" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/space"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_weight="1"
+                        android:layout_toEndOf="@+id/space" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
             </LinearLayout>
@@ -378,7 +383,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+           <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ticket_background"
@@ -416,7 +421,7 @@
                 </LinearLayout>
 
 
-            </LinearLayout>
+            </LinearLayout> -->
 
             <LinearLayout
                 android:layout_width="match_parent"

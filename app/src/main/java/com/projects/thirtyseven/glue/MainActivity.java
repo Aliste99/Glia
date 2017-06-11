@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.Spinner;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -67,7 +68,10 @@ public class MainActivity extends AppCompatActivity
         adapter = new CustomTicketAdapter(this, R.layout.custom_list_item, listOfTickets);
         postList = new ArrayList<>();
         listOfTags.setAdapter(adapter);
+
     }
+
+
 
     private void setListeners() {
         /*databaseReference.addChildEventListener(new ChildEventListener() {
