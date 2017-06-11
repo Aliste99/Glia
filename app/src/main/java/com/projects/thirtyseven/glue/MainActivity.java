@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity
                                             + "message: " + message + "\n"
                                             + "shares count: " + shares + "\n"
                                             + "_______________________________________");
-                                    Post postt = new Post(name, message, Integer.parseInt(shares), id, url);
+                                    Post postt = new Post(name, message, Integer.parseInt(shares), id, url, false);
                                     postList.add(postt);
                                    // adapter.notifyDataSetChanged();
                                     posts.add(id);
