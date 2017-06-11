@@ -32,8 +32,8 @@ public class CustomFbAdapter extends ArrayAdapter<FBItem> {
         FBItem fbItem = getItem(position);
         TextView title = (TextView) listViewItem.findViewById(R.id.linkTitle);
 
-        if (fbItem != null)
-            title.setText(fbItem.getTitle());
+
+        title.setText(fbItem.getTitle());
 
         return listViewItem;
     }

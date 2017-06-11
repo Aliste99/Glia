@@ -22,7 +22,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@android:color/transparent"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 app:srcCompat="@drawable/facebook_box" />
 
             <ImageButton
@@ -32,7 +32,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@android:color/transparent"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 app:srcCompat="@drawable/youtube_play" />
 
             <ImageButton
@@ -42,7 +42,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@android:color/transparent"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 app:srcCompat="@drawable/web" />
         </LinearLayout>
 

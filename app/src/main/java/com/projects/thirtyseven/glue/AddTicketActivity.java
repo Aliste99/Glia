@@ -3,6 +3,7 @@ package com.projects.thirtyseven.glue;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
@@ -28,11 +34,15 @@ public class AddTicketActivity extends AppCompatActivity{
     Button saveButton;
 
     FirebaseDatabase database;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, fbRef, youTubeRef, linkRef;
     Ticket ticket;
     ImageButton ticketAddLink;
     ListView listOfLinks;
     ImageButton fbButton, ytButton, linkButton;
+    FBItem fbItem;
+    YTItem youtubeItem;
+    LinkItem linkItem;
+    View.OnClickListener onClickListener;
 
     int DIALOG_DATE = 1;
     int DIALOG_TIME = 2;
@@ -58,10 +68,68 @@ public class AddTicketActivity extends AppCompatActivity{
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("tickets");
+        fbRef = database.getReference("facebook");
+        youTubeRef = database.getReference("youtube");
+        linkRef = database.getReference("link");
+
+        fbItem = new FBItem();
+
+       /* fbItem.setTitle("Демонстранты из Нарына извинились перед студентами и преподавателями УЦА");
+        fbItem.setText("Группа жителей Нарына извинилась перед преподавателями Университета Центральной Азии. Днем ранее они заставили студентов вуза на коленях просить прощения за драку на соревновании по баскетболу.\n" +
+                "\n" +
+                "Жители Нарына снова пришли в УЦА, но на этот раз сами попросили прощения у его преподавателей. Молодые люди заявили, что конфликт произошел из-за «недоразумения и недопонимания».\n" +
+                "\n" +
+                "Молодежные активисты города Нарын подарили преподавателям подарки.\n" +
+                "\n" +
+                "«Двум сотрудникам университета, в том числе преподавателю, который вчера попросил извинения за своих студентов, представители местной молодежи надели национальный головной убор “ак-калпак” и подарили две книги эпоса “Манас” в знак уважения», — сообщает пресс-служба МВД.\n" +
+                "\n" +
+                "Руководство вуза и его преподаватели считают, что инцидент исчерпан, и надеются, что и дальше смогут мирно взаимодействовать с местными жителями.\n" +
+                "\n" +
+                "На встрече местных жителей и студентов присутствовали руководство УВД, полпред Нарынской области и деканы университета.\n" +
+                "\n" +
+                "Ранее МВД возбудило уголовное дело по статье «Хулиганство» против местных жителей, вынудивших студентов и преподавателей просить прощения на коленях. Их обвиняют в нарушении общественного порядка.");
+        fbItem.setURL("https://kloop.kg/blog/2017/06/09/ak-kalpak-i-manas-demonstranty-iz-naryna-izvinilis-pered-studentami-i-prepodavatelyami-utsa/");
+        fbItem.setReachedTotal("1564");
+        fbItem.setReachedUnique("1137");
+        fbItem.setShares("13");
+
+        fbRef.push().setValue(fbItem);*/
+        fbList = new ArrayList<>();
+
+
+        fbRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                fbItem = dataSnapshot.getValue(FBItem.class);
+                fbList.add(fbItem);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         init();
         setCurrentTime();
         setOnClickLiteners();
+
+
     }
 
     private void setCurrentTime() {
@@ -106,35 +174,35 @@ public class AddTicketActivity extends AppCompatActivity{
                     }
                 });
 
-                fbList = new ArrayList<>();
                 ytList = new ArrayList<>();
                 linkList = new ArrayList<>();
 
-                View.OnClickListener onClickListener = new View.OnClickListener() {
+                fbButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(AddTicketActivity.this, "fb", Toast.LENGTH_SHORT).show();
+                        ArrayAdapter adapter;
+                        adapter = new CustomFbAdapter(dialog.getContext(), R.layout.custom_list_of_links, fbList);
+                        listOfLinks.setAdapter(adapter);
+                    }
+                });
+                ytButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(AddTicketActivity.this, "yt", Toast.LENGTH_SHORT).show();
+                        ArrayAdapter adapter;
+                        adapter = new CustomYouTubeAdapter(dialog.getContext(), R.layout.custom_list_of_links, ytList);
+                        listOfLinks.setAdapter(adapter);
+                    }
+                });
+                linkButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ArrayAdapter adapter;
-                        switch (v.getId()){
-                            case R.id.fbButton:
-                                adapter = new CustomFbAdapter(getApplicationContext(), R.layout.custom_list_of_links, fbList);
-                                break;
-                            case R.id.ytButton:
-                                adapter = new CustomYouTubeAdapter(getApplicationContext(), R.layout.custom_list_of_links, ytList);
-                                break;
-                            case R.id.linkButton:
-                                adapter = new CustomLinksAdapter(getApplicationContext(), R.layout.custom_list_of_links, linkList);
-                                break;
-                            default:
-                                adapter = new CustomFbAdapter(getApplicationContext(), R.layout.custom_list_of_links, fbList);
-                                break;
-                        }
+                        adapter = new CustomLinksAdapter(dialog.getContext(), R.layout.custom_list_of_links, linkList);
                         listOfLinks.setAdapter(adapter);
                     }
-                };
-
-                fbButton.setOnClickListener(onClickListener);
-                ytButton.setOnClickListener(onClickListener);
-                linkButton.setOnClickListener(onClickListener);
+                });
 
                 dialog.show();
 
@@ -142,8 +210,6 @@ public class AddTicketActivity extends AppCompatActivity{
 
 
         });
-
-
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
