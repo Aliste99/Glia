@@ -258,7 +258,6 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketCategory(ticketCategory.getText().toString());
                 ticket.setTicketDescription(ticketDescription.getText().toString());
                 ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
-                ticket.setTicketTaskCoWorker(ticketTaskCoWorker.getText().toString());
                 ticket.setTicketTaskFee(ticketTaskFee.getText().toString());
                 ticket.setTicketExpenses(ticketExpenses.getText().toString());
                 ticket.setTicketSpending(ticketSpending.getText().toString());
