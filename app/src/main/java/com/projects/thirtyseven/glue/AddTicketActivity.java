@@ -3,15 +3,11 @@ package com.projects.thirtyseven.glue;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,7 +17,6 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -43,7 +38,7 @@ public class AddTicketActivity extends AppCompatActivity{
     Button addAuthorButton;
 
     FirebaseDatabase database;
-    DatabaseReference databaseReference, fbRef, youTubeRef, linkRef;
+    DatabaseReference postsDatabaseReference, webDatabaseReference;
     Ticket ticket;
     ImageButton ticketAddLink;
     GridView authorsGridView;
@@ -82,7 +77,8 @@ public class AddTicketActivity extends AppCompatActivity{
         getSupportActionBar().hide();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("posts");
+        postsDatabaseReference = database.getReference("posts");
+        webDatabaseReference = database.getReference("web");
 
         fbPost = new Post();
 
@@ -111,13 +107,39 @@ public class AddTicketActivity extends AppCompatActivity{
 
         fbRef.push().setValue(fbItem);*/
 
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        postsDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 fbPost = dataSnapshot.getValue(Post.class);
                 fbList.add(fbPost);
-                /*linkItem = dataSnapshot.child("web").getValue(LinkItem.class);
-                linkList.add(linkItem);*/
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        webDatabaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                linkItem = dataSnapshot.getValue(LinkItem.class);
+                linkList.add(linkItem);
             }
 
             @Override
@@ -260,7 +282,7 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketExpenses(ticketExpenses.getText().toString());
                 ticket.setTicketSpending(ticketSpending.getText().toString());
                 ticket.setTicketComment(ticketComment.getText().toString());
-                databaseReference.push().setValue(ticket);
+                postsDatabaseReference.push().setValue(ticket);
             }
         });
         addAuthorButton.setOnClickListener(new View.OnClickListener() {
