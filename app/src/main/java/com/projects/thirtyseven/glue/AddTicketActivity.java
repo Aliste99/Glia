@@ -20,17 +20,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddTicketActivity extends AppCompatActivity{
+public class AddTicketActivity extends AppCompatActivity {
     TextView ticketDate, ticketTime, ticketTag, ticketAttachments;
     EditText ticketCategory, ticketDescription, ticketTaskProfession, ticketTaskCoWorker,
             ticketTaskFee, ticketExpenses, ticketSpending, ticketComment, ticketTitle;
@@ -38,7 +40,7 @@ public class AddTicketActivity extends AppCompatActivity{
     Button addAuthorButton;
 
     FirebaseDatabase database;
-    DatabaseReference postsDatabaseReference, webDatabaseReference;
+    DatabaseReference postsDatabaseReference, webDatabaseReference, ticketDatabaseReference;
     Ticket ticket;
     ImageButton ticketAddLink;
     GridView authorsGridView;
@@ -64,10 +66,11 @@ public class AddTicketActivity extends AppCompatActivity{
     ArrayList<Post> fbList;
     ArrayList<YTItem> ytList;
     ArrayList<LinkItem> linkList;
+    Author author;
     String tag;
     Dialog dialog;
     Button buttonDone;
-    private int  PICK_IMAGE = 1;
+    private int PICK_IMAGE = 1;
 
 
     @Override
@@ -79,6 +82,7 @@ public class AddTicketActivity extends AppCompatActivity{
         database = FirebaseDatabase.getInstance();
         postsDatabaseReference = database.getReference("posts");
         webDatabaseReference = database.getReference("web");
+        ticketDatabaseReference = database.getReference("tickets");
 
         fbPost = new Post();
 
@@ -187,6 +191,7 @@ public class AddTicketActivity extends AppCompatActivity{
                 ItemData itemData = list.get(selectedItemPosition);
                 tag = itemData.getText();
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
@@ -237,7 +242,6 @@ public class AddTicketActivity extends AppCompatActivity{
                 fbButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(AddTicketActivity.this, "fb", Toast.LENGTH_SHORT).show();
                         ArrayAdapter adapter;
                         adapter = new CustomFbAdapter(dialog.getContext(), R.layout.custom_list_of_links, fbList);
                         listOfLinks.setAdapter(adapter);
@@ -255,7 +259,6 @@ public class AddTicketActivity extends AppCompatActivity{
                 ytButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(AddTicketActivity.this, "yt", Toast.LENGTH_SHORT).show();
                         ArrayAdapter adapter;
                         adapter = new CustomYouTubeAdapter(dialog.getContext(), R.layout.custom_list_of_links, ytList);
                         listOfLinks.setAdapter(adapter);
@@ -291,7 +294,8 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketExpenses(ticketExpenses.getText().toString());
                 ticket.setTicketSpending(ticketSpending.getText().toString());
                 ticket.setTicketComment(ticketComment.getText().toString());
-                postsDatabaseReference.push().setValue(ticket);
+                    ticket.setAuthor(authorArrayList);
+                ticketDatabaseReference.push().setValue(ticket);
             }
         });
         addAuthorButton.setOnClickListener(new View.OnClickListener() {
@@ -320,7 +324,7 @@ public class AddTicketActivity extends AppCompatActivity{
         Log.v("Authors", "photos to show: " + photos.toString());
         authorArrayList = new ArrayList<>();
         Author selectedAuthor;
-        for (int i = 0; i < names.size(); i ++){
+        for (int i = 0; i < names.size(); i++) {
             selectedAuthor = new Author(names.get(i), photos.get(i));
             authorArrayList.add(selectedAuthor);
             Log.v("Authors", "selected author: " + selectedAuthor.toString());
@@ -409,7 +413,7 @@ public class AddTicketActivity extends AppCompatActivity{
         saveButton = (Button) findViewById(R.id.saveTicketButton);
         ticketAddLink = (ImageButton) findViewById(R.id.ticketAddLink);
         addAuthorButton = (Button) findViewById(R.id.addAuthorButton);
-        authorsGridView = (GridView)findViewById(R.id.authorsGridView);
+        authorsGridView = (GridView) findViewById(R.id.authorsGridView);
         tagSpinner = (Spinner) findViewById(R.id.tagSpinner);
     }
 

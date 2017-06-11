@@ -1,8 +1,6 @@
 package com.projects.thirtyseven.glue;
 
-/**
- * Created by ThirtySeven on 09.06.2017.
- */
+import java.util.ArrayList;
 
 class Ticket {
     private String ticketDate;
@@ -18,6 +16,12 @@ class Ticket {
     private String ticketComment;
     private String ticketTitle;
 
+    public ArrayList<Author> getAuthor() {
+        return author;
+    }
+
+    private ArrayList<Author> author;
+
     public Ticket() {
 
     }
@@ -26,7 +30,8 @@ class Ticket {
                   String ticketCategory, String ticketDescription,
                   String ticketTaskProfession, String ticketTaskCoWorker,
                   String ticketTaskFee, String ticketExpenses,
-                  String ticketSpending, String ticketComment) {
+                  String ticketSpending, String ticketComment,
+                  ArrayList<Author> author) {
         this.ticketDate = ticketDate;
         this.ticketTime = ticketTime;
         this.ticketTag = ticketTag;
@@ -38,6 +43,7 @@ class Ticket {
         this.ticketExpenses = ticketExpenses;
         this.ticketSpending = ticketSpending;
         this.ticketComment = ticketComment;
+        this.author = author;
     }
 
     public String getTicketDate() {
@@ -135,5 +141,9 @@ class Ticket {
 
     public void setTicketTitle(String ticketTitle) {
         this.ticketTitle = ticketTitle;
+    }
+
+    public void setAuthor(ArrayList<Author> author) {
+        this.author = author;
     }
 }

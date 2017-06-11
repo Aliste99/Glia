@@ -67,7 +67,7 @@
             app:srcCompat="@drawable/account_circle" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -109,7 +109,7 @@
                 app:srcCompat="@drawable/youtube_play" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/youtubeViews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -136,7 +136,7 @@
                 app:srcCompat="@drawable/facebook_box" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/fbViews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -163,7 +163,7 @@
                 app:srcCompat="@drawable/web" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/siteViews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -181,15 +181,15 @@
             android:layout_toEndOf="@+id/linearLayout6">
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:layout_toStartOf="@+id/textView17"
+                android:layout_toStartOf="@+id/time"
                 android:text="30.06.2017" />
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

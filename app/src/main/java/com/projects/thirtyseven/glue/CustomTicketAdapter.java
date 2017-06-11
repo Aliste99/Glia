@@ -37,13 +37,23 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
         }
 
         Ticket ticket = getItem(position);
+        Post fbPost;
+        ArrayList<Author> authorArrayList = ticket.getAuthor();
+
         String getTagText = ticket.getTicketTag();
         TextView name = (TextView) listViewItem.findViewById(R.id.name);
         TextView category = (TextView) listViewItem.findViewById(R.id.tagText);
         TextView description = (TextView) listViewItem.findViewById(R.id.description);
+        TextView youtubeViews = (TextView) listViewItem.findViewById(R.id.youtubeViews);
+        TextView fbViews = (TextView) listViewItem.findViewById(R.id.fbViews);
+        TextView siteViews = (TextView) listViewItem.findViewById(R.id.siteViews);
+        TextView date = (TextView) listViewItem.findViewById(R.id.date);
+        TextView time = (TextView) listViewItem.findViewById(R.id.time);
+        TextView author = (TextView) listViewItem.findViewById(R.id.author);
         ImageView tagView = (ImageView) listViewItem.findViewById(R.id.tagMark);
         // TextView views = (TextView) listViewItem.findViewById(R.id.views);
 
+        author.setText("");
         name.setText(ticket.getTicketTitle());
         category.setText(getTagText);
 
@@ -66,6 +76,19 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
         else tagView.setColorFilter(ContextCompat.getColor(context, R.color.greyColorLight));
 
         description.setText(ticket.getTicketDescription());
+        date.setText(ticket.getTicketDate());
+        time.setText(ticket.getTicketTime());
+        if (authorArrayList != null) {
+            int i = 0;
+            for (Author a :
+                    authorArrayList) {
+                if (i != 0)
+                    author.append(", " + a.getName());
+                else
+                    author.append(a.getName());
+                i++;
+            }
+        }
         //views.setText("12563");
 
         return listViewItem;
