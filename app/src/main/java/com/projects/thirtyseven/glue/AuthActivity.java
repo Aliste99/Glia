@@ -11,6 +11,7 @@ import android.widget.Button;
 
 public class AuthActivity extends AppCompatActivity {
     Button skipAuthButton;
+    Button refreshButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +29,17 @@ public class AuthActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
     }
 
     private void init() {
         skipAuthButton = (Button)findViewById(R.id.skipAuthButton);
+        refreshButton = (Button)findViewById(R.id.buttonRefresh);
     }
 
 
