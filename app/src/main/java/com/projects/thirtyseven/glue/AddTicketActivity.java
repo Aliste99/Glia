@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -33,6 +35,8 @@ public class AddTicketActivity extends AppCompatActivity{
     DatabaseReference databaseReference;
     Ticket ticket;
     ImageButton ticketAddLink;
+    ListView listOfLinks;
+    ImageButton fbButton, ytButton, linkButton;
 
     int DIALOG_DATE = 1;
     int DIALOG_TIME = 2;
@@ -42,10 +46,13 @@ public class AddTicketActivity extends AppCompatActivity{
     int myDay = c.get(Calendar.DAY_OF_MONTH);
     int myHour = c.get(Calendar.HOUR);
     int myMinute = c.get(Calendar.MINUTE);
-    String ytLink;
-    String fbLink;
-    String wsLink;
     Spinner tagSpinner;
+    String ytLink, fbLink, wsLink;
+    ArrayList<FBItem> fbList;
+    ArrayList<YTItem> ytList;
+    ArrayList<LinkItem> linkList;
+    Dialog dialog;
+    Button buttonDone;
 
 
     @Override
@@ -112,35 +119,59 @@ public class AddTicketActivity extends AppCompatActivity{
         ticketAddLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(AddTicketActivity.this);
-                dialog.setContentView(R.layout.custom_alert_dialog);
-                 dialog.setTitle("Add links");
+                dialog = new Dialog(AddTicketActivity.this);
+                dialog.setContentView(R.layout.custom_alert_dialog2);
+                dialog.setTitle("Add links");
                 dialog.setCancelable(true);
 
-                final EditText ytLinkText = (EditText) dialog.findViewById(R.id.youTubeLink);
-                final EditText fbLinkText = (EditText) dialog.findViewById(R.id.faceBookLink);
-                final EditText wsLinkText = (EditText) dialog.findViewById(R.id.webSiteLink);
+                dialogInit(dialog);
 
-                if (ytLink == null);
-                else ytLinkText.setText(ytLink);
-                if (fbLink == null);
-                else fbLinkText.setText(fbLink);
-                if (wsLink == null);
-                else wsLinkText.setText(wsLink);
-
-                Button button = (Button) dialog.findViewById(R.id.alertDialogDoneButton);
-                button.setOnClickListener(new View.OnClickListener() {
+                buttonDone.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ytLink = String.valueOf(ytLinkText.getText());
-                        fbLink = String.valueOf(fbLinkText.getText());
-                        wsLink = String.valueOf(wsLinkText.getText());
+
                         dialog.hide();
                     }
                 });
+
+                fbList = new ArrayList<>();
+                ytList = new ArrayList<>();
+                linkList = new ArrayList<>();
+
+                View.OnClickListener onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ArrayAdapter adapter;
+                        switch (v.getId()){
+                            case R.id.fbButton:
+                                adapter = new CustomFbAdapter(getApplicationContext(), R.layout.custom_list_of_links, fbList);
+                                break;
+                            case R.id.ytButton:
+                                adapter = new CustomYouTubeAdapter(getApplicationContext(), R.layout.custom_list_of_links, ytList);
+                                break;
+                            case R.id.linkButton:
+                                adapter = new CustomLinksAdapter(getApplicationContext(), R.layout.custom_list_of_links, linkList);
+                                break;
+                            default:
+                                adapter = new CustomFbAdapter(getApplicationContext(), R.layout.custom_list_of_links, fbList);
+                                break;
+                        }
+                        listOfLinks.setAdapter(adapter);
+                    }
+                };
+
+                fbButton.setOnClickListener(onClickListener);
+                ytButton.setOnClickListener(onClickListener);
+                linkButton.setOnClickListener(onClickListener);
+
                 dialog.show();
+
             }
+
+
         });
+
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +191,15 @@ public class AddTicketActivity extends AppCompatActivity{
                 databaseReference.push().setValue(ticket);
             }
         });
+    }
+
+    private void dialogInit(Dialog dialog) {
+        fbButton = (ImageButton) dialog.findViewById(R.id.fbButton);
+        ytButton = (ImageButton) dialog.findViewById(R.id.ytButton);
+        linkButton = (ImageButton) dialog.findViewById(R.id.linkButton);
+        listOfLinks = (ListView) dialog.findViewById(R.id.listOfLinks);
+
+        buttonDone = (Button) dialog.findViewById(R.id.alertDialogDoneButton);
     }
 
     protected Dialog onCreateDialog(int id) {
