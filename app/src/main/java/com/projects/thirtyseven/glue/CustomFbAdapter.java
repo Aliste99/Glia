@@ -45,8 +45,16 @@ public class CustomFbAdapter extends ArrayAdapter<Post> {
         databaseReference = firebaseDatabase.getReference("posts");
 
         fbPost = getItem(position);
+        try {
+            if(fbPost.isConnected()){
+                postArrayList.remove(fbPost);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         title = (TextView) listViewItem.findViewById(R.id.linkTitle);
-        if(!fbPost.isConnected()) title.setText(fbPost.getName());
+        title.setText(fbPost.getName());
 
         return listViewItem;
     }
