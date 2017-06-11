@@ -4,19 +4,21 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddTicketActivity extends AppCompatActivity{
-    TextView ticketDate, ticketTime, ticketTag;
+    TextView ticketDate, ticketTime, ticketTag, ticketAttachments;
     EditText ticketCategory, ticketDescription, ticketTaskProfession, ticketTaskCoWorker,
             ticketTaskFee, ticketExpenses, ticketSpending, ticketComment, ticketTitle;
     Button saveButton;
@@ -52,12 +54,15 @@ public class AddTicketActivity extends AppCompatActivity{
     int myDay = c.get(Calendar.DAY_OF_MONTH);
     int myHour = c.get(Calendar.HOUR);
     int myMinute = c.get(Calendar.MINUTE);
+    Spinner tagSpinner;
     String ytLink, fbLink, wsLink;
     ArrayList<FBItem> fbList;
     ArrayList<YTItem> ytList;
     ArrayList<LinkItem> linkList;
+    String tag;
     Dialog dialog;
     Button buttonDone;
+    private int  PICK_IMAGE = 1;
 
 
     @Override
@@ -128,8 +133,30 @@ public class AddTicketActivity extends AppCompatActivity{
         init();
         setCurrentTime();
         setOnClickLiteners();
+        setSpinnerAdapter();
+    }
 
-
+    private void setSpinnerAdapter() {
+        final ArrayList<ItemData> list = new ArrayList<>();
+        list.add(new ItemData("Текст написан", R.drawable.red_tag));
+        list.add(new ItemData("Текст проверен", R.drawable.green_tag));
+        list.add(new ItemData("Видео собрано", R.drawable.blue_tag));
+        list.add(new ItemData("Видео смонтированно", R.drawable.orange_tag));
+        list.add(new ItemData("Кэпшн написан", R.drawable.pink_tag));
+        list.add(new ItemData("Кэпшн проверен", R.drawable.dark_green_tag));
+        list.add(new ItemData("Одобрить с гл.Ред.", R.drawable.black_tag));
+        SpinnerAdapter adapter = new SpinnerAdapter(this,
+                R.layout.spinner_custom_layout, R.id.tagText, list);
+        tagSpinner.setAdapter(adapter);
+        tagSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent,
+                                       View itemSelected, int selectedItemPosition, long selectedId) {
+                ItemData itemData = list.get(selectedItemPosition);
+                tag = itemData.getText();
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void setCurrentTime() {
@@ -217,7 +244,7 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketTitle(ticketTitle.getText().toString());
                 ticket.setTicketDate(ticketDate.getText().toString());
                 ticket.setTicketTime(ticketTime.getText().toString());
-                ticket.setTicketTag(ticketTag.getText().toString());
+                ticket.setTicketTag(tag);
                 ticket.setTicketCategory(ticketCategory.getText().toString());
                 ticket.setTicketDescription(ticketDescription.getText().toString());
                 ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
@@ -226,10 +253,22 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketExpenses(ticketExpenses.getText().toString());
                 ticket.setTicketSpending(ticketSpending.getText().toString());
                 ticket.setTicketComment(ticketComment.getText().toString());
-
                 databaseReference.push().setValue(ticket);
             }
         });
+
+//        ticketAttachments.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//                getIntent.setType("image/*");
+//                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                pickIntent.setType("image/*");
+//                Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+//                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+//                startActivityForResult(chooserIntent, PICK_IMAGE);
+//            }
+//        });
     }
 
     private void dialogInit(Dialog dialog) {
@@ -286,8 +325,8 @@ public class AddTicketActivity extends AppCompatActivity{
         ticket = new Ticket();
         ticketDate = (TextView) findViewById(R.id.ticketDateText);
         ticketTime = (TextView) findViewById(R.id.ticketTimeText);
-        ticketTag = (TextView) findViewById(R.id.chooseTheTag);
         ticketTitle = (EditText) findViewById(R.id.ticketTitleText);
+        //ticketAttachments = (TextView) findViewById(R.id.ticketAttachments);
         ticketCategory = (EditText) findViewById(R.id.ticketCategoryText);
         ticketDescription = (EditText) findViewById(R.id.ticketDescriptionText);
         ticketTaskProfession = (EditText) findViewById(R.id.ticketProfessionText);
@@ -298,6 +337,7 @@ public class AddTicketActivity extends AppCompatActivity{
         ticketComment = (EditText) findViewById(R.id.ticketCommentText);
         saveButton = (Button) findViewById(R.id.saveTicketButton);
         ticketAddLink = (ImageButton) findViewById(R.id.ticketAddLink);
+        tagSpinner = (Spinner) findViewById(R.id.tagSpinner);
     }
 
 }
