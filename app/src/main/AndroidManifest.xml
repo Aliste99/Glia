@@ -28,7 +28,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddTicketActivity" />
         <activity android:name=".AddAuthorActivity" />
-        <activity android:name=".PermissionsActivity"></activity>
+        <activity android:name=".PermissionsActivity" />
+        <activity android:name=".groups.FacebookLoginActivity"></activity>
     </application>
 
 </manifest>
