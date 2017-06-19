@@ -32,6 +32,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.projects.thirtyseven.glue.groups.FacebookLoginActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -491,6 +492,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_groups){
             Log.d(TAG, "groups selected");
+            startActivity(new Intent(MainActivity.this, FacebookLoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

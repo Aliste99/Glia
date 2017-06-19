@@ -15,6 +15,10 @@
     <string name="caption_checked">Кэпшен проверен</string>
     <string name="approval_with_the_editor">Одобрить с гл.Ред.</string>
 
+    <string name="facebook_status_fmt">Facebook User: %s</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="signed_out">Signed Out</string>
+
     <string-array name="tagsExample">
         <item>Tag1</item>
         <item>Tag2</item>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/_fb_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="199dp" />
+
+    <Button
+        android:id="@+id/signout"
+        android:layout_width="182dip"
+        android:layout_height="wrap_content"
+        android:text="SignOut"
+        android:layout_marginRight="5dp"
+        android:textSize="12sp"
+        android:layout_below="@+id/_fb_login"
+        android:layout_alignStart="@+id/_fb_login"
+        android:layout_marginTop="43dp" />
+</RelativeLayout>
