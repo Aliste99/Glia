@@ -38,6 +38,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements View.OnC
         mAuth = FirebaseAuth.getInstance();
 
         findViewById(R.id.signout).setOnClickListener(this);
+        findViewById(R.id.buttonGroups).setOnClickListener(this);
 
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
@@ -153,6 +154,13 @@ public class FacebookLoginActivity extends AppCompatActivity implements View.OnC
         int i = v.getId();
         if (i == R.id.signout) {
             signOut();
+        }
+        if (i == R.id.buttonGroups){
+            if (mAuth.getCurrentUser() != null){
+                startActivity(new Intent(FacebookLoginActivity.this, SlidingGroupsActivity.class));
+            } else {
+                Toast.makeText(this, "user == null", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

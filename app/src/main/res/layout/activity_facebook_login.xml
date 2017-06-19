@@ -16,9 +16,17 @@
         android:layout_width="182dip"
         android:layout_height="wrap_content"
         android:text="SignOut"
-        android:layout_marginRight="5dp"
         android:textSize="12sp"
+        android:layout_marginTop="35dp"
         android:layout_below="@+id/_fb_login"
-        android:layout_alignStart="@+id/_fb_login"
-        android:layout_marginTop="43dp" />
+        android:layout_alignStart="@+id/_fb_login" />
+
+    <Button
+        android:id="@+id/buttonGroups"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp"
+        android:text="Groups" />
 </RelativeLayout>

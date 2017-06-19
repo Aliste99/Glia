@@ -30,6 +30,16 @@
         <activity android:name=".AddAuthorActivity" />
         <activity android:name=".PermissionsActivity" />
         <activity android:name=".groups.FacebookLoginActivity"></activity>
+        <activity android:name=".groups.Approve" />
+        <activity
+            android:name=".groups.SlidingGroupsActivity"
+            android:label="@string/title_activity_sliding_groups"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".groups.GroupActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" ></activity>
+
     </application>
 
 </manifest>

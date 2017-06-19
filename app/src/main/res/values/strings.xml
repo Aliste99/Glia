@@ -18,6 +18,7 @@
     <string name="facebook_status_fmt">Facebook User: %s</string>
     <string name="firebase_status_fmt">Firebase User: %s</string>
     <string name="signed_out">Signed Out</string>
+    <string name="title_activity_sliding_groups">SlidingGroupsActivity</string>
 
     <string-array name="tagsExample">
         <item>Tag1</item>
