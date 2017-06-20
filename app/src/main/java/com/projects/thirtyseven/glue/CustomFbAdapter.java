@@ -56,6 +56,8 @@ public class CustomFbAdapter extends ArrayAdapter<Post> {
         title = (TextView) listViewItem.findViewById(R.id.linkTitle);
         title.setText(fbPost.getName());
 
+        notifyDataSetChanged();
+
         return listViewItem;
     }
 }

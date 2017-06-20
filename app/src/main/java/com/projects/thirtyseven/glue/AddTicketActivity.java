@@ -251,7 +251,9 @@ public class AddTicketActivity extends AppCompatActivity {
                                 Post postToConnect = fbList.get(position);
                                 postToConnect.setConnected(true);
                                 postsDatabaseReference.child(postToConnect.getId()).setValue(postToConnect);
+
                                 Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), postToConnect.getName(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
