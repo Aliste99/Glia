@@ -15,6 +15,7 @@ class Ticket {
     private String ticketSpending;
     private String ticketComment;
     private String ticketTitle;
+    private Post FBPost;
 
     public ArrayList<Author> getAuthor() {
         return author;
@@ -145,5 +146,13 @@ class Ticket {
 
     public void setAuthor(ArrayList<Author> author) {
         this.author = author;
+    }
+
+    public void setFBPost(Post FBPost) {
+        this.FBPost = FBPost;
+    }
+
+    public Post getFBPost() {
+        return FBPost;
     }
 }

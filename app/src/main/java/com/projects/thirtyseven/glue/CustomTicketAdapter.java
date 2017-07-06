@@ -1,8 +1,6 @@
 package com.projects.thirtyseven.glue;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,10 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
 
@@ -37,7 +33,7 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
         }
 
         Ticket ticket = getItem(position);
-        Post fbPost;
+        Post fbPost = ticket.getFBPost();
         ArrayList<Author> authorArrayList = ticket.getAuthor();
 
         String getTagText = ticket.getTicketTag();
@@ -88,6 +84,11 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
                     author.append(a.getName());
                 i++;
             }
+        }
+
+        if(fbPost != null){
+            fbViews.setText(String.valueOf(fbPost.getReached_unique()));
+
         }
         //views.setText("12563");
 

@@ -15,8 +15,8 @@ import android.widget.EditText;
 import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -46,7 +46,7 @@ public class AddTicketActivity extends AppCompatActivity {
     GridView authorsGridView;
     ListView listOfLinks;
     ImageButton fbButton, ytButton, linkButton;
-    Post fbPost;
+    Post fbPost, fbObjToSave;
     YTItem youtubeItem;
     LinkItem linkItem;
     View.OnClickListener onClickListener;
@@ -90,26 +90,7 @@ public class AddTicketActivity extends AppCompatActivity {
         linkList = new ArrayList<>();
         fbList = new ArrayList<>();
 
-       /* fbItem.setTitle("Демонстранты из Нарына извинились перед студентами и преподавателями УЦА");
-        fbItem.setText("Группа жителей Нарына извинилась перед преподавателями Университета Центральной Азии. Днем ранее они заставили студентов вуза на коленях просить прощения за драку на соревновании по баскетболу.\n" +
-                "\n" +
-                "Жители Нарына снова пришли в УЦА, но на этот раз сами попросили прощения у его преподавателей. Молодые люди заявили, что конфликт произошел из-за «недоразумения и недопонимания».\n" +
-                "\n" +
-                "Молодежные активисты города Нарын подарили преподавателям подарки.\n" +
-                "\n" +
-                "«Двум сотрудникам университета, в том числе преподавателю, который вчера попросил извинения за своих студентов, представители местной молодежи надели национальный головной убор “ак-калпак” и подарили две книги эпоса “Манас” в знак уважения», — сообщает пресс-служба МВД.\n" +
-                "\n" +
-                "Руководство вуза и его преподаватели считают, что инцидент исчерпан, и надеются, что и дальше смогут мирно взаимодействовать с местными жителями.\n" +
-                "\n" +
-                "На встрече местных жителей и студентов присутствовали руководство УВД, полпред Нарынской области и деканы университета.\n" +
-                "\n" +
-                "Ранее МВД возбудило уголовное дело по статье «Хулиганство» против местных жителей, вынудивших студентов и преподавателей просить прощения на коленях. Их обвиняют в нарушении общественного порядка.");
-        fbItem.setURL("https://kloop.kg/blog/2017/06/09/ak-kalpak-i-manas-demonstranty-iz-naryna-izvinilis-pered-studentami-i-prepodavatelyami-utsa/");
-        fbItem.setReachedTotal("1564");
-        fbItem.setReachedUnique("1137");
-        fbItem.setShares("13");
-
-        fbRef.push().setValue(fbItem);*/
+        fbList = new ArrayList<>();
 
         postsDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -248,12 +229,13 @@ public class AddTicketActivity extends AppCompatActivity {
                         listOfLinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Post postToConnect = fbList.get(position);
+                                Post postToConnect = (Post) parent.getItemAtPosition(position);
                                 postToConnect.setConnected(true);
                                 postsDatabaseReference.child(postToConnect.getId()).setValue(postToConnect);
 
                                 Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(), postToConnect.getName(), Toast.LENGTH_SHORT).show();
+                                fbObjToSave = postToConnect;
                             }
                         });
                     }
@@ -278,6 +260,8 @@ public class AddTicketActivity extends AppCompatActivity {
                 dialog.show();
 
             }
+
+
         });
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -296,6 +280,7 @@ public class AddTicketActivity extends AppCompatActivity {
                 ticket.setTicketSpending(ticketSpending.getText().toString());
                 ticket.setTicketComment(ticketComment.getText().toString());
                 ticket.setAuthor(authorArrayList);
+                if (fbObjToSave != null) ticket.setFBPost(fbObjToSave);
                 ticketDatabaseReference.push().setValue(ticket);
             }
         });
