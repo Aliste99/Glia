@@ -43,13 +43,16 @@ public class CustomFbAdapter extends ArrayAdapter<Post> {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("posts");
-
-        fbPost = getItem(position);
         try {
-            if(fbPost.isConnected()){
+            fbPost = getItem(position);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+            if (fbPost.isConnected()) {
                 postArrayList.remove(fbPost);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

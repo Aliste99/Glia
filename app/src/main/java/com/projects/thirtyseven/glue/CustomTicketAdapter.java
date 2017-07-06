@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
@@ -86,9 +87,15 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
             }
         }
 
-        if(fbPost != null){
-            fbViews.setText(String.valueOf(fbPost.getReached_unique()));
-
+        if (fbPost != null) {
+            if (fbPost.getReached_unique() < 1000) {
+                fbViews.setText(String.valueOf(fbPost.getReached_unique()));
+            } else {
+                double views = fbPost.getReached_unique();
+                views /= 1000;
+                DecimalFormat df = new DecimalFormat("#.#");
+                fbViews.setText(String.valueOf(df.format(views)) + "k");
+            }
         }
         //views.setText("12563");
 

@@ -230,12 +230,10 @@ public class AddTicketActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Post postToConnect = (Post) parent.getItemAtPosition(position);
-                                postToConnect.setConnected(true);
-                                postsDatabaseReference.child(postToConnect.getId()).setValue(postToConnect);
-
                                 Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(), postToConnect.getName(), Toast.LENGTH_SHORT).show();
                                 fbObjToSave = postToConnect;
+                                dialog.closeOptionsMenu();
                             }
                         });
                     }
@@ -280,7 +278,11 @@ public class AddTicketActivity extends AppCompatActivity {
                 ticket.setTicketSpending(ticketSpending.getText().toString());
                 ticket.setTicketComment(ticketComment.getText().toString());
                 ticket.setAuthor(authorArrayList);
-                if (fbObjToSave != null) ticket.setFBPost(fbObjToSave);
+                if (fbObjToSave != null) {
+                    ticket.setFBPost(fbObjToSave);
+                    fbObjToSave.setConnected(true);
+                    postsDatabaseReference.child(fbObjToSave.getId()).setValue(fbObjToSave);
+                }
                 ticketDatabaseReference.push().setValue(ticket);
             }
         });
