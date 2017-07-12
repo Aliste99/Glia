@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity
                 TicketInfoDialog ticketInfoDialog1 = TicketInfoDialog.addSomeString(ticket_id);
                 ticketInfoDialog.setArguments(args);
                 ticketInfoDialog.setString(ticket_id);
+                ticketInfoDialog.setContext(MainActivity.this);
                 ticketInfoDialog.show(getFragmentManager(), "info");
             }
         });

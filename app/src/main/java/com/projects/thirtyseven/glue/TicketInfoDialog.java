@@ -1,13 +1,16 @@
 package com.projects.thirtyseven.glue;
 
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,8 +23,10 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
 
     private static String ticket_id;
     final String LOG_TAG = "info";
+    Context context;
 
     TextView shared, likes, wow, haha, reached_total, reached_unique, loves, sad, angry;
+    Button change, delete;
     Post currentPost;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -32,16 +37,7 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
 
         getDialog().setTitle("Информация");
         View view = inflater.inflate(R.layout.ticket_info_dialog, null);
-        shared = (TextView) view.findViewById(R.id.shared);
-        likes = (TextView) view.findViewById(R.id.likes_count);
-        wow = (TextView) view.findViewById(R.id.wow_count);
-        haha = (TextView) view.findViewById(R.id.haha_count);
-        reached_total = (TextView) view.findViewById(R.id.reached_total);
-        reached_unique = (TextView) view.findViewById(R.id.reached_unique);
-        loves = (TextView) view.findViewById(R.id.loves_count);
-        sad = (TextView) view.findViewById(R.id.sad_count);
-        angry = (TextView) view.findViewById(R.id.angry_count);
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        init(view);
 
         if (ticket_id != null) {
             databaseReference = firebaseDatabase.getReference("tickets").child(ticket_id).child("fbpost");
@@ -71,7 +67,25 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
             });
         }
 
+        change.setOnClickListener(this);
+        delete.setOnClickListener(this);
+
         return view;
+    }
+
+    private void init(View view) {
+        shared = (TextView) view.findViewById(R.id.shared);
+        likes = (TextView) view.findViewById(R.id.likes_count);
+        wow = (TextView) view.findViewById(R.id.wow_count);
+        haha = (TextView) view.findViewById(R.id.haha_count);
+        reached_total = (TextView) view.findViewById(R.id.reached_total);
+        reached_unique = (TextView) view.findViewById(R.id.reached_unique);
+        loves = (TextView) view.findViewById(R.id.loves_count);
+        sad = (TextView) view.findViewById(R.id.sad_count);
+        angry = (TextView) view.findViewById(R.id.angry_count);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        change = (Button) view.findViewById(R.id.changeButton);
+        delete = (Button) view.findViewById(R.id.deleteButton);
     }
 
     public static TicketInfoDialog addSomeString(String temp) {
@@ -89,8 +103,22 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
-        dismiss();
+        switch (v.getId()) {
+            case R.id.changeButton:
+                Intent intent = new Intent(context, AddTicketActivity.class);
+                intent.putExtra("ticket_id", ticket_id);
+                startActivity(intent);
+                break;
+            case R.id.deleteButton:
+                if (ticket_id != null) {
+                    DatabaseReference dReference = firebaseDatabase.getReference("tickets").child(ticket_id);
+                    dReference.removeValue();
+                }
+                break;
+            default:
+                dismiss();
+                break;
+        }
     }
 
     @Override
@@ -103,8 +131,11 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
         super.onCancel(dialog);
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
-   /* public void show(FragmentManager supportFragmentManager, String dialogMessageType) {
-
-    }*/
+    public Context getContext() {
+        return context;
+    }
 }
