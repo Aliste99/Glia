@@ -16,6 +16,7 @@ class Ticket {
     private String ticketComment;
     private String ticketTitle;
     private Post FBPost;
+    private String id;
 
     public ArrayList<Author> getAuthor() {
         return author;
@@ -154,5 +155,13 @@ class Ticket {
 
     public Post getFBPost() {
         return FBPost;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }

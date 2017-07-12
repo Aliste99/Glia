@@ -1,9 +1,11 @@
 package com.projects.thirtyseven.glue;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -14,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "myLogs";
     private static final int PICK_PERMS_REQUEST = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +75,29 @@ public class MainActivity extends AppCompatActivity
         init();
         setListeners();
 
+
         listOfTickets = new ArrayList<>();
         adapter = new CustomTicketAdapter(this, R.layout.custom_list_item, listOfTickets);
         postList = new ArrayList<>();
         listOfTags.setAdapter(adapter);
+        listOfTags.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final TicketInfoDialog ticketInfoDialog = new TicketInfoDialog();
+                Ticket ticket = (Ticket) parent.getItemAtPosition(position);
+                String ticket_id = ticket.getId();
+
+                Bundle args = new Bundle();
+                args.putString("ticket_id", ticket_id);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                TicketInfoDialog ticketInfoDialog1 = TicketInfoDialog.addSomeString(ticket_id);
+                ticketInfoDialog.setArguments(args);
+                ticketInfoDialog.setString(ticket_id);
+                ticketInfoDialog.show(getFragmentManager(), "info");
+            }
+        });
 
     }
 

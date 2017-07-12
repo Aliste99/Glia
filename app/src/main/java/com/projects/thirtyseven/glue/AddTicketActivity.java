@@ -283,7 +283,10 @@ public class AddTicketActivity extends AppCompatActivity {
                     fbObjToSave.setConnected(true);
                     postsDatabaseReference.child(fbObjToSave.getId()).setValue(fbObjToSave);
                 }
-                ticketDatabaseReference.push().setValue(ticket);
+                //ticketDatabaseReference.push().setValue(ticket);
+                String id = ticketDatabaseReference.push().getKey();
+                ticket.setId(id);
+                ticketDatabaseReference.child(id).setValue(ticket);
             }
         });
         addAuthorButton.setOnClickListener(new View.OnClickListener() {
