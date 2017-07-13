@@ -287,6 +287,7 @@ public class AddTicketActivity extends AppCompatActivity {
                 String id = ticketDatabaseReference.push().getKey();
                 ticket.setId(id);
                 ticketDatabaseReference.child(id).setValue(ticket);
+                finish();
             }
         });
         addAuthorButton.setOnClickListener(new View.OnClickListener() {

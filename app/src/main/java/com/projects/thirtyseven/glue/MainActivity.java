@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     private void setListeners() {
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -122,7 +121,13 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                ticket = dataSnapshot.getValue(Ticket.class);
+                for (int i = 0; i < listOfTickets.size(); i++){
+                    if (listOfTickets.get(i).getId() == ticket.getId()) {
+                        listOfTickets.remove(i);
+                    }
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity
                         //R.string.success,
                         "success",
                         Toast.LENGTH_LONG).show();
-               // updateUI();
+                // updateUI();
             }
 
             @Override
@@ -174,7 +179,7 @@ public class MainActivity extends AppCompatActivity
         firebase = FirebaseDatabase.getInstance();
         databaseReference = firebase.getReference("tickets");
         listOfTags = (ListView) findViewById(R.id.listOfTegs);
-        fbLoginButton = (LoginButton)findViewById(R.id._fb_login);
+        fbLoginButton = (LoginButton) findViewById(R.id._fb_login);
     }
 
     private void asNeeded() {
@@ -229,16 +234,13 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort_by) {
             return true;
-        }
-        else if (id == R.id.action_source){
+        } else if (id == R.id.action_source) {
             return true;
-        }
-        else if (id == R.id.action_update_news){
+        } else if (id == R.id.action_update_news) {
             getPostsInfo();
             saveToFireBase();
             return true;
-        }
-        else if (id == R.id.permissions){
+        } else if (id == R.id.permissions) {
             Intent selectPermsIntent =
                     new Intent(MainActivity.this, PermissionsActivity.class);
             startActivityForResult(selectPermsIntent, PICK_PERMS_REQUEST);
@@ -246,14 +248,15 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onActivityResult(
             final int requestCode,
             final int resultCode,
             final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_PERMS_REQUEST) {
-            if(resultCode == RESULT_OK) {
+        if (requestCode == PICK_PERMS_REQUEST) {
+            if (resultCode == RESULT_OK) {
                 String[] readPermsArr = data
                         .getStringArrayExtra(PermissionsActivity.EXTRA_SELECTED_READ_PARAMS);
                 String writePrivacy = data
@@ -265,7 +268,7 @@ public class MainActivity extends AppCompatActivity
                 fbLoginButton.clearPermissions();
 
                 if (readPermsArr != null) {
-                    if(readPermsArr.length > 0) {
+                    if (readPermsArr.length > 0) {
                         fbLoginButton.setReadPermissions(readPermsArr);
                     }
                 }
@@ -273,7 +276,7 @@ public class MainActivity extends AppCompatActivity
                 if ((readPermsArr == null ||
                         readPermsArr.length == 0) &&
                         publishPermsArr != null) {
-                    if(publishPermsArr.length > 0) {
+                    if (publishPermsArr.length > 0) {
                         fbLoginButton.setPublishPermissions(publishPermsArr);
                     }
                 }
@@ -296,7 +299,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void saveToFireBase() {
-        for(Post post : postList){
+        for (Post post : postList) {
             databaseReference.getRoot().child("posts").child(post.getId()).setValue(post);
         }
         new RefreshTask().execute();
@@ -322,11 +325,12 @@ public class MainActivity extends AppCompatActivity
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        for (FeedParser.Entry entry : entries){
+        for (FeedParser.Entry entry : entries) {
             String hashId = String.valueOf(entry.id.hashCode());
             databaseReference.getRoot().child("web").child(hashId).setValue(entry);
         }
     }
+
     private class RefreshTask extends AsyncTask<Integer, Integer, Integer> {
         protected Integer doInBackground(Integer... num) {
 
@@ -379,13 +383,13 @@ public class MainActivity extends AppCompatActivity
                                     String message = "";
                                     try {
                                         message = post.getString("message");
-                                    } catch (JSONException e){
+                                    } catch (JSONException e) {
                                         Log.d(TAG, "JSON exception message error");
                                     }
                                     String shares = "0";
                                     try {
                                         shares = post.getJSONObject("shares").getString("count");
-                                    } catch (JSONException e){
+                                    } catch (JSONException e) {
                                         Log.d(TAG, "JSON exception shares error");
                                     }
                                     Log.d(TAG, "post id: " + id + "\n"
@@ -396,7 +400,7 @@ public class MainActivity extends AppCompatActivity
                                             + "_______________________________________");
                                     Post postt = new Post(name, message, Integer.parseInt(shares), id, url, false);
                                     postList.add(postt);
-                                   // adapter.notifyDataSetChanged();
+                                    // adapter.notifyDataSetChanged();
                                     posts.add(id);
                                 }
                                 for (String id : posts) {
@@ -408,7 +412,7 @@ public class MainActivity extends AppCompatActivity
                         } catch (JSONException e) {
                             Toast.makeText(MainActivity.this, "JSON exception while getting posts", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "JSON exception while getting posts");
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             Toast.makeText(MainActivity.this, "Getting posts error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -437,14 +441,14 @@ public class MainActivity extends AppCompatActivity
                                 String postId = getPostId(fullId);
 
 
-                                for (int i = 0; i < postList.size(); i++){
+                                for (int i = 0; i < postList.size(); i++) {
                                     Post post = postList.get(i);
-                                    if (postId.equals(post.getId())){
+                                    if (postId.equals(post.getId())) {
 
-                                        for (int k = 0; k < dataArray.length(); k++){
+                                        for (int k = 0; k < dataArray.length(); k++) {
                                             JSONObject metric = dataArray.getJSONObject(k);
                                             String metricName = metric.getString("name");
-                                            switch (metricName){
+                                            switch (metricName) {
                                                 case "post_impressions":
                                                     String value = metric.getJSONArray("values").getJSONObject(0).getString("value");
                                                     post.setReached_total(Integer.parseInt(value));
@@ -468,7 +472,7 @@ public class MainActivity extends AppCompatActivity
                                             }
                                         }
 
-                                       // adapter.notifyDataSetChanged();
+                                        // adapter.notifyDataSetChanged();
                                     }
                                 }
                             } else {
@@ -483,6 +487,7 @@ public class MainActivity extends AppCompatActivity
 
         request.executeAsync();
     }
+
     private String getPostId(String fullId) {
         char[] origin = fullId.toCharArray();
         StringBuilder stringBuilder = new StringBuilder();
@@ -494,7 +499,6 @@ public class MainActivity extends AppCompatActivity
         }
         return stringBuilder.toString();
     }
-
 
 
     @SuppressWarnings("StatementWithEmptyBody")

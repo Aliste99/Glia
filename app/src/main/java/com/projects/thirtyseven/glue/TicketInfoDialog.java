@@ -1,5 +1,6 @@
 package com.projects.thirtyseven.glue;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,6 +31,8 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
     Post currentPost;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    DatabaseReference reference;
+    String postId;
 
     @Nullable
     @Override
@@ -94,9 +97,6 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
         return f;
     }
 
-    ;
-
-
     void setString(String ticket_id) {
         TicketInfoDialog.ticket_id = ticket_id;
     }
@@ -108,12 +108,55 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
                 Intent intent = new Intent(context, AddTicketActivity.class);
                 intent.putExtra("ticket_id", ticket_id);
                 startActivity(intent);
+                dismiss();
                 break;
             case R.id.deleteButton:
-                if (ticket_id != null) {
-                    DatabaseReference dReference = firebaseDatabase.getReference("tickets").child(ticket_id);
-                    dReference.removeValue();
-                }
+                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage("Вы уверены?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseReference dReference = firebaseDatabase.getReference("tickets").child(ticket_id);
+                        dReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Ticket ticket = dataSnapshot.getValue(Ticket.class);
+                                Post post = ticket.getFBPost();
+                                postId = post.getId();
+                                reference = firebaseDatabase.getReference("posts").child(postId);
+                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        Post post = dataSnapshot.getValue(Post.class);
+                                        post.setConnected(false);
+                                        reference.setValue(post);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        dReference.removeValue();
+                        dismiss();
+                    }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Нет", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dismiss();
+                    }
+                });
+                alertDialog.show();
                 break;
             default:
                 dismiss();
