@@ -26,7 +26,7 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
     final String LOG_TAG = "info";
     Context context;
 
-    TextView shared, likes, wow, haha, reached_total, reached_unique, loves, sad, angry;
+    TextView shared, likes, wow, haha, reached_total, reached_unique, loves, sad, angry, title;
     Button change, delete;
     Post currentPost;
     FirebaseDatabase firebaseDatabase;
@@ -49,6 +49,7 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentPost = dataSnapshot.getValue(Post.class);
                     try {
+                        title.setText(String.valueOf(currentPost.getName()));
                         shared.setText(String.valueOf(currentPost.getSharesCount()));
                         likes.setText(String.valueOf(currentPost.getLikesCount()));
                         wow.setText(String.valueOf(currentPost.getWowCount()));
@@ -77,6 +78,7 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
     }
 
     private void init(View view) {
+        title = (TextView) view.findViewById(R.id.title);
         shared = (TextView) view.findViewById(R.id.shared);
         likes = (TextView) view.findViewById(R.id.likes_count);
         wow = (TextView) view.findViewById(R.id.wow_count);

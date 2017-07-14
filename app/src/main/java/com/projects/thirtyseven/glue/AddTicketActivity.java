@@ -75,6 +75,7 @@ public class AddTicketActivity extends AppCompatActivity {
     Intent intent;
     private int PICK_IMAGE = 1;
     String id;
+    DatabaseReference reference;
 
 
     @Override
@@ -267,8 +268,25 @@ public class AddTicketActivity extends AppCompatActivity {
                                 Post postToConnect = (Post) parent.getItemAtPosition(position);
                                 Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(), postToConnect.getName(), Toast.LENGTH_SHORT).show();
+                                if (fbObjToSave != null) {
+                                    reference = database.getReference("posts").child(fbObjToSave.getId());
+                                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Post post = dataSnapshot.getValue(Post.class);
+                                            post.setConnected(false);
+                                            reference.setValue(post);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
                                 fbObjToSave = postToConnect;
-                                dialog.closeOptionsMenu();
+                                dialog.hide();
                             }
                         });
                     }
