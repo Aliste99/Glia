@@ -1,8 +1,6 @@
 package com.projects.thirtyseven.glue;
 
-/**
- * Created by ThirtySeven on 09.06.2017.
- */
+import java.util.ArrayList;
 
 class Ticket {
     private String ticketDate;
@@ -17,6 +15,14 @@ class Ticket {
     private String ticketSpending;
     private String ticketComment;
     private String ticketTitle;
+    private Post FBPost;
+    private String id;
+
+    public ArrayList<Author> getAuthor() {
+        return author;
+    }
+
+    private ArrayList<Author> author;
 
     public Ticket() {
 
@@ -26,7 +32,8 @@ class Ticket {
                   String ticketCategory, String ticketDescription,
                   String ticketTaskProfession, String ticketTaskCoWorker,
                   String ticketTaskFee, String ticketExpenses,
-                  String ticketSpending, String ticketComment) {
+                  String ticketSpending, String ticketComment,
+                  ArrayList<Author> author) {
         this.ticketDate = ticketDate;
         this.ticketTime = ticketTime;
         this.ticketTag = ticketTag;
@@ -38,6 +45,29 @@ class Ticket {
         this.ticketExpenses = ticketExpenses;
         this.ticketSpending = ticketSpending;
         this.ticketComment = ticketComment;
+        this.author = author;
+    }
+
+    public Ticket(String ticketDate, String ticketTime, String ticketTag,
+                  String ticketCategory, String ticketDescription, String ticketTaskProfession,
+                  String ticketTaskCoWorker, String ticketTaskFee, String ticketExpenses,
+                  String ticketSpending, String ticketComment, String ticketTitle,
+                  Post FBPost, String id, ArrayList<Author> author) {
+        this.ticketDate = ticketDate;
+        this.ticketTime = ticketTime;
+        this.ticketTag = ticketTag;
+        this.ticketCategory = ticketCategory;
+        this.ticketDescription = ticketDescription;
+        this.ticketTaskProfession = ticketTaskProfession;
+        this.ticketTaskCoWorker = ticketTaskCoWorker;
+        this.ticketTaskFee = ticketTaskFee;
+        this.ticketExpenses = ticketExpenses;
+        this.ticketSpending = ticketSpending;
+        this.ticketComment = ticketComment;
+        this.ticketTitle = ticketTitle;
+        this.FBPost = FBPost;
+        this.id = id;
+        this.author = author;
     }
 
     public String getTicketDate() {
@@ -135,5 +165,25 @@ class Ticket {
 
     public void setTicketTitle(String ticketTitle) {
         this.ticketTitle = ticketTitle;
+    }
+
+    public void setAuthor(ArrayList<Author> author) {
+        this.author = author;
+    }
+
+    public void setFBPost(Post FBPost) {
+        this.FBPost = FBPost;
+    }
+
+    public Post getFBPost() {
+        return FBPost;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }

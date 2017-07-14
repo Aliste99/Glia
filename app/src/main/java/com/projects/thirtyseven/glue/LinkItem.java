@@ -6,22 +6,49 @@ package com.projects.thirtyseven.glue;
 
 class LinkItem {
 
-    private String title;
-    private String URL;
+    String id;
+    String link;
+    long published;
+    String title;
 
-    public String getURL() {
-        return URL;
-    }
+    public LinkItem(){}
 
-    public void setURL(String URL) {
-        this.URL = URL;
-    }
-
-    public void setTitle(String title) {
+    public LinkItem(String id, String link, int published, String title) {
+        this.id = id;
+        this.link = link;
+        this.published = published;
         this.title = title;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public long getPublished() {
+        return published;
+    }
+
+    public void setPublished(long published) {
+        this.published = published;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

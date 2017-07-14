@@ -1,6 +1,7 @@
 package com.projects.thirtyseven.glue;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class AuthActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
     }
 
     private void init() {
@@ -41,4 +43,6 @@ public class AuthActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(AuthActivity.this, R.color.greyColor));
     }
+
+
 }

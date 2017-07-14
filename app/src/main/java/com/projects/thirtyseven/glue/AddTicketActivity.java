@@ -3,16 +3,17 @@ package com.projects.thirtyseven.glue;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.ListView;
@@ -24,24 +25,29 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
-public class AddTicketActivity extends AppCompatActivity{
+public class AddTicketActivity extends AppCompatActivity {
     TextView ticketDate, ticketTime, ticketTag, ticketAttachments;
     EditText ticketCategory, ticketDescription, ticketTaskProfession, ticketTaskCoWorker,
             ticketTaskFee, ticketExpenses, ticketSpending, ticketComment, ticketTitle;
     Button saveButton;
+    Button addAuthorButton;
 
     FirebaseDatabase database;
-    DatabaseReference databaseReference, fbRef, youTubeRef, linkRef;
+    DatabaseReference postsDatabaseReference, webDatabaseReference, ticketDatabaseReference;
     Ticket ticket;
     ImageButton ticketAddLink;
+    GridView authorsGridView;
     ListView listOfLinks;
     ImageButton fbButton, ytButton, linkButton;
-    FBItem fbItem;
+    Post fbPost, fbObjToSave;
     YTItem youtubeItem;
     LinkItem linkItem;
     View.OnClickListener onClickListener;
@@ -54,15 +60,21 @@ public class AddTicketActivity extends AppCompatActivity{
     int myDay = c.get(Calendar.DAY_OF_MONTH);
     int myHour = c.get(Calendar.HOUR);
     int myMinute = c.get(Calendar.MINUTE);
+    ArrayList<Author> authorArrayList;
+    CustomAddAuthorAdapter authorAdapter;
     Spinner tagSpinner;
     String ytLink, fbLink, wsLink;
-    ArrayList<FBItem> fbList;
+    ArrayList<Post> fbList;
     ArrayList<YTItem> ytList;
     ArrayList<LinkItem> linkList;
+    Author author;
     String tag;
     Dialog dialog;
     Button buttonDone;
-    private int  PICK_IMAGE = 1;
+    Intent intent;
+    private int PICK_IMAGE = 1;
+    String id;
+    DatabaseReference reference;
 
 
     @Override
@@ -72,20 +84,80 @@ public class AddTicketActivity extends AppCompatActivity{
         getSupportActionBar().hide();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("tickets");
-        fbRef = database.getReference("facebook");
-        youTubeRef = database.getReference("youtube");
-        linkRef = database.getReference("link");
+        postsDatabaseReference = database.getReference("posts");
+        webDatabaseReference = database.getReference("web");
+        ticketDatabaseReference = database.getReference("tickets");
+        init();
+        fbPost = new Post();
 
-        fbItem = new FBItem();
+        ytList = new ArrayList<>();
+        linkList = new ArrayList<>();
         fbList = new ArrayList<>();
 
+        fbList = new ArrayList<>();
+        intent = getIntent();
+        if (getIntent().getExtras() != null) {
 
-        fbRef.addChildEventListener(new ChildEventListener() {
+            id = intent.getStringExtra("ticket_id");
+            DatabaseReference dbRef = database.getReference("tickets").child(id);
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Ticket t = dataSnapshot.getValue(Ticket.class);
+                    ticketTitle.setText(t.getTicketTitle());
+                    ticketDate.setText(t.getTicketDate());
+                    ticketTime.setText(t.getTicketTime());
+                    ticketCategory.setText(t.getTicketCategory());
+                    ticketDescription.setText(t.getTicketDescription());
+                    ticketTaskProfession.setText(t.getTicketTaskProfession());
+                    ticketTaskProfession.setText(t.getTicketTaskProfession());
+                    ticketTaskFee.setText(t.getTicketTaskFee());
+                    ticketExpenses.setText(t.getTicketExpenses());
+                    ticketSpending.setText(t.getTicketSpending());
+                    ticketComment.setText(t.getTicketComment());
+                    if (t.getFBPost() != null)
+                        fbObjToSave = t.getFBPost();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
+
+        postsDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                fbItem = dataSnapshot.getValue(FBItem.class);
-                fbList.add(fbItem);
+                fbPost = dataSnapshot.getValue(Post.class);
+                fbList.add(fbPost);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        webDatabaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                linkItem = dataSnapshot.getValue(LinkItem.class);
+                linkList.add(linkItem);
             }
 
             @Override
@@ -109,7 +181,9 @@ public class AddTicketActivity extends AppCompatActivity{
             }
         });
 
-        init();
+        intent = getIntent();
+
+
         setCurrentTime();
         setOnClickLiteners();
         setSpinnerAdapter();
@@ -117,13 +191,13 @@ public class AddTicketActivity extends AppCompatActivity{
 
     private void setSpinnerAdapter() {
         final ArrayList<ItemData> list = new ArrayList<>();
-        list.add(new ItemData("Текст написан", R.drawable.red_tag));
-        list.add(new ItemData("Текст проверен", R.drawable.green_tag));
-        list.add(new ItemData("Видео собрано", R.drawable.blue_tag));
-        list.add(new ItemData("Видео смонтированно", R.drawable.orange_tag));
-        list.add(new ItemData("Кэпшн написан", R.drawable.pink_tag));
-        list.add(new ItemData("Кэпшн проверен", R.drawable.dark_green_tag));
-        list.add(new ItemData("Одобрить с гл.Ред.", R.drawable.black_tag));
+        list.add(new ItemData(getString(R.string.text_wrote), R.drawable.red_tag));
+        list.add(new ItemData(getString(R.string.text_checked), R.drawable.green_tag));
+        list.add(new ItemData(getString(R.string.video_collected), R.drawable.blue_tag));
+        list.add(new ItemData(getString(R.string.video_mounted), R.drawable.orange_tag));
+        list.add(new ItemData(getString(R.string.caption_wrote), R.drawable.pink_tag));
+        list.add(new ItemData(getString(R.string.caption_checked), R.drawable.dark_green_tag));
+        list.add(new ItemData(getString(R.string.approval_with_the_editor), R.drawable.black_tag));
         SpinnerAdapter adapter = new SpinnerAdapter(this,
                 R.layout.spinner_custom_layout, R.id.tagText, list);
         tagSpinner.setAdapter(adapter);
@@ -133,6 +207,7 @@ public class AddTicketActivity extends AppCompatActivity{
                 ItemData itemData = list.get(selectedItemPosition);
                 tag = itemData.getText();
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
@@ -180,22 +255,44 @@ public class AddTicketActivity extends AppCompatActivity{
                     }
                 });
 
-                ytList = new ArrayList<>();
-                linkList = new ArrayList<>();
-
                 fbButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(AddTicketActivity.this, "fb", Toast.LENGTH_SHORT).show();
                         ArrayAdapter adapter;
                         adapter = new CustomFbAdapter(dialog.getContext(), R.layout.custom_list_of_links, fbList);
                         listOfLinks.setAdapter(adapter);
+                        listOfLinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Post postToConnect = (Post) parent.getItemAtPosition(position);
+                                Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), postToConnect.getName(), Toast.LENGTH_SHORT).show();
+                                if (fbObjToSave != null) {
+                                    reference = database.getReference("posts").child(fbObjToSave.getId());
+                                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Post post = dataSnapshot.getValue(Post.class);
+                                            post.setConnected(false);
+                                            reference.setValue(post);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
+                                fbObjToSave = postToConnect;
+                                dialog.hide();
+                            }
+                        });
                     }
                 });
                 ytButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(AddTicketActivity.this, "yt", Toast.LENGTH_SHORT).show();
                         ArrayAdapter adapter;
                         adapter = new CustomYouTubeAdapter(dialog.getContext(), R.layout.custom_list_of_links, ytList);
                         listOfLinks.setAdapter(adapter);
@@ -227,14 +324,62 @@ public class AddTicketActivity extends AppCompatActivity{
                 ticket.setTicketCategory(ticketCategory.getText().toString());
                 ticket.setTicketDescription(ticketDescription.getText().toString());
                 ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
-                ticket.setTicketTaskCoWorker(ticketTaskCoWorker.getText().toString());
+                ticket.setTicketTaskProfession(ticketTaskProfession.getText().toString());
                 ticket.setTicketTaskFee(ticketTaskFee.getText().toString());
                 ticket.setTicketExpenses(ticketExpenses.getText().toString());
                 ticket.setTicketSpending(ticketSpending.getText().toString());
                 ticket.setTicketComment(ticketComment.getText().toString());
-                databaseReference.push().setValue(ticket);
+                ticket.setAuthor(authorArrayList);
+                if (fbObjToSave != null) {
+                    ticket.setFBPost(fbObjToSave);
+                    fbObjToSave.setConnected(true);
+                    postsDatabaseReference.child(fbObjToSave.getId()).setValue(fbObjToSave);
+                }
+
+                if (getIntent().getExtras() == null) {
+                    id = ticketDatabaseReference.push().getKey();
+                    ticket.setId(id);
+                }
+                ticket.setId(id);
+                ticketDatabaseReference.child(id).setValue(ticket);
+                finish();
+
             }
         });
+        addAuthorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddTicketActivity.this, AddAuthorActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+        authorsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                authorArrayList.remove(position);
+                authorAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) return;
+        ArrayList<String> names = data.getStringArrayListExtra("name");
+        ArrayList<Integer> photos = data.getIntegerArrayListExtra("photo");
+        Log.v("Authors", "authors to show: " + names.toString());
+        Log.v("Authors", "photos to show: " + photos.toString());
+        authorArrayList = new ArrayList<>();
+        Author selectedAuthor;
+        for (int i = 0; i < names.size(); i++) {
+            selectedAuthor = new Author(names.get(i), photos.get(i));
+            authorArrayList.add(selectedAuthor);
+            Log.v("Authors", "selected author: " + selectedAuthor.toString());
+        }
+        Log.v("Authors", "authors: " + authorArrayList.toString());
+        authorAdapter = new CustomAddAuthorAdapter(this, R.layout.authors_listview_item, authorArrayList);
+        authorsGridView.setAdapter(authorAdapter);
 
 //        ticketAttachments.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -309,13 +454,14 @@ public class AddTicketActivity extends AppCompatActivity{
         ticketCategory = (EditText) findViewById(R.id.ticketCategoryText);
         ticketDescription = (EditText) findViewById(R.id.ticketDescriptionText);
         ticketTaskProfession = (EditText) findViewById(R.id.ticketProfessionText);
-        ticketTaskCoWorker = (EditText) findViewById(R.id.ticketCoWorkerText);
         ticketTaskFee = (EditText) findViewById(R.id.ticketTaskFeeText);
         ticketExpenses = (EditText) findViewById(R.id.ticketExpensesNameText);
         ticketSpending = (EditText) findViewById(R.id.ticketSpendingText);
         ticketComment = (EditText) findViewById(R.id.ticketCommentText);
         saveButton = (Button) findViewById(R.id.saveTicketButton);
         ticketAddLink = (ImageButton) findViewById(R.id.ticketAddLink);
+        addAuthorButton = (Button) findViewById(R.id.addAuthorButton);
+        authorsGridView = (GridView) findViewById(R.id.authorsGridView);
         tagSpinner = (Spinner) findViewById(R.id.tagSpinner);
     }
 
