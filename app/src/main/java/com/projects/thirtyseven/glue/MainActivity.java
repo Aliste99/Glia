@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         listOfTags.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final TicketInfoDialog ticketInfoDialog = new TicketInfoDialog();
+                TicketInfoDialog ticketInfoDialog = new TicketInfoDialog();
                 Ticket ticket = (Ticket) parent.getItemAtPosition(position);
                 String ticket_id = ticket.getId();
 
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
 
-                TicketInfoDialog ticketInfoDialog1 = TicketInfoDialog.addSomeString(ticket_id);
+                ticketInfoDialog = TicketInfoDialog.addSomeString(ticket_id);
                 ticketInfoDialog.setArguments(args);
                 ticketInfoDialog.setString(ticket_id);
                 ticketInfoDialog.setContext(MainActivity.this);

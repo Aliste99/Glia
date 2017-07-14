@@ -122,22 +122,24 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Ticket ticket = dataSnapshot.getValue(Ticket.class);
-                                Post post = ticket.getFBPost();
-                                postId = post.getId();
-                                reference = firebaseDatabase.getReference("posts").child(postId);
-                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        Post post = dataSnapshot.getValue(Post.class);
-                                        post.setConnected(false);
-                                        reference.setValue(post);
-                                    }
+                                if (ticket.getFBPost() != null) {
+                                    Post post = ticket.getFBPost();
+                                    postId = post.getId();
+                                    reference = firebaseDatabase.getReference("posts").child(postId);
+                                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Post post = dataSnapshot.getValue(Post.class);
+                                            post.setConnected(false);
+                                            reference.setValue(post);
+                                        }
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
 
-                                    }
-                                });
+                                        }
+                                    });
+                                }
                             }
 
                             @Override

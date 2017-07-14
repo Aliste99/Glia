@@ -48,6 +48,28 @@ class Ticket {
         this.author = author;
     }
 
+    public Ticket(String ticketDate, String ticketTime, String ticketTag,
+                  String ticketCategory, String ticketDescription, String ticketTaskProfession,
+                  String ticketTaskCoWorker, String ticketTaskFee, String ticketExpenses,
+                  String ticketSpending, String ticketComment, String ticketTitle,
+                  Post FBPost, String id, ArrayList<Author> author) {
+        this.ticketDate = ticketDate;
+        this.ticketTime = ticketTime;
+        this.ticketTag = ticketTag;
+        this.ticketCategory = ticketCategory;
+        this.ticketDescription = ticketDescription;
+        this.ticketTaskProfession = ticketTaskProfession;
+        this.ticketTaskCoWorker = ticketTaskCoWorker;
+        this.ticketTaskFee = ticketTaskFee;
+        this.ticketExpenses = ticketExpenses;
+        this.ticketSpending = ticketSpending;
+        this.ticketComment = ticketComment;
+        this.ticketTitle = ticketTitle;
+        this.FBPost = FBPost;
+        this.id = id;
+        this.author = author;
+    }
+
     public String getTicketDate() {
         return ticketDate;
     }

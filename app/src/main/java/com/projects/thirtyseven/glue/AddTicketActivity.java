@@ -26,11 +26,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class AddTicketActivity extends AppCompatActivity {
     TextView ticketDate, ticketTime, ticketTag, ticketAttachments;
@@ -70,7 +72,9 @@ public class AddTicketActivity extends AppCompatActivity {
     String tag;
     Dialog dialog;
     Button buttonDone;
+    Intent intent;
     private int PICK_IMAGE = 1;
+    String id;
 
 
     @Override
@@ -83,7 +87,7 @@ public class AddTicketActivity extends AppCompatActivity {
         postsDatabaseReference = database.getReference("posts");
         webDatabaseReference = database.getReference("web");
         ticketDatabaseReference = database.getReference("tickets");
-
+        init();
         fbPost = new Post();
 
         ytList = new ArrayList<>();
@@ -91,6 +95,35 @@ public class AddTicketActivity extends AppCompatActivity {
         fbList = new ArrayList<>();
 
         fbList = new ArrayList<>();
+        intent = getIntent();
+        if (getIntent().getExtras() != null) {
+
+            id = intent.getStringExtra("ticket_id");
+            DatabaseReference dbRef = database.getReference("tickets").child(id);
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Ticket t = dataSnapshot.getValue(Ticket.class);
+                    ticketTitle.setText(t.getTicketTitle());
+                    ticketDate.setText(t.getTicketDate());
+                    ticketTime.setText(t.getTicketTime());
+                    ticketCategory.setText(t.getTicketCategory());
+                    ticketDescription.setText(t.getTicketDescription());
+                    ticketTaskProfession.setText(t.getTicketTaskProfession());
+                    ticketTaskProfession.setText(t.getTicketTaskProfession());
+                    ticketTaskFee.setText(t.getTicketTaskFee());
+                    ticketExpenses.setText(t.getTicketExpenses());
+                    ticketSpending.setText(t.getTicketSpending());
+                    ticketComment.setText(t.getTicketComment());
+                    if (t.getFBPost() != null)
+                        fbObjToSave = t.getFBPost();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
 
         postsDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -148,7 +181,9 @@ public class AddTicketActivity extends AppCompatActivity {
             }
         });
 
-        init();
+        intent = getIntent();
+
+
         setCurrentTime();
         setOnClickLiteners();
         setSpinnerAdapter();
@@ -283,11 +318,15 @@ public class AddTicketActivity extends AppCompatActivity {
                     fbObjToSave.setConnected(true);
                     postsDatabaseReference.child(fbObjToSave.getId()).setValue(fbObjToSave);
                 }
-                //ticketDatabaseReference.push().setValue(ticket);
-                String id = ticketDatabaseReference.push().getKey();
+
+                if (getIntent().getExtras() == null) {
+                    id = ticketDatabaseReference.push().getKey();
+                    ticket.setId(id);
+                }
                 ticket.setId(id);
                 ticketDatabaseReference.child(id).setValue(ticket);
                 finish();
+
             }
         });
         addAuthorButton.setOnClickListener(new View.OnClickListener() {
