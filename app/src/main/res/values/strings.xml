@@ -6,13 +6,25 @@
     <string name="action_settings">Settings</string>
     <string name="facebook_app_id">160037534140521</string>
     <string name="add_author">Add author</string>
-    <string name="text_wrote">Текст написан</string>
+    <string name="text_wrote">Текст проверен</string>
     <string name="text_checked">Текст проверен</string>
     <string name="video_collected">Видео собрано</string>
-    <string name="video_mounted">Видео смонтированно</string>
+    <string name="video_mounted">Видео собрано</string>
     <string name="caption_wrote">Кэпшен написан</string>
     <string name="caption_checked">Кэпшен проверен</string>
-    <string name="approval_with_the_editor">Одобрить с гл.Ред.</string>
+    <string name="enter_title">Enter title...</string>
+    <string name="category">Category...</string>
+    <string name="description">Description...</string>
+    <string name="profession">Profession...</string>
+    <string name="fee">Fee...</string>
+    <string name="name">Name...</string>
+    <string name="spending">Spending...</string>
+    <string name="comment">Comment...</string>
+    <string name="delete">Delete</string>
+    <string name="change">change</string>
+    <string name="reached_total">Reached total</string>
+    <string name="reached_unique">Reached unique</string>
+    <string name="approval_with_the_editor">Одобренно с гл.Редактором</string>
 
     <string-array name="tagsExample">
         <item>Tag1</item>
