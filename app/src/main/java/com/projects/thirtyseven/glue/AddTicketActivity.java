@@ -40,6 +40,7 @@ public class AddTicketActivity extends AppCompatActivity {
             ticketTaskFee, ticketExpenses, ticketSpending, ticketComment, ticketTitle;
     Button saveButton;
     Button addAuthorButton;
+    ImageButton addTagButton;
 
     FirebaseDatabase database;
     DatabaseReference postsDatabaseReference, webDatabaseReference, ticketDatabaseReference;
@@ -235,6 +236,13 @@ public class AddTicketActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDialog(DIALOG_TIME);
+            }
+        });
+
+        addTagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -464,6 +472,7 @@ public class AddTicketActivity extends AppCompatActivity {
         addAuthorButton = (Button) findViewById(R.id.addAuthorButton);
         authorsGridView = (GridView) findViewById(R.id.authorsGridView);
         tagSpinner = (Spinner) findViewById(R.id.tagSpinner);
+        addTagButton = (ImageButton) findViewById(R.id.addTagButton);
     }
 
 }

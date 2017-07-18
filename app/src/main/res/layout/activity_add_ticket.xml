@@ -224,10 +224,21 @@
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_weight="1"
+                        android:layout_marginRight="41dp"
                         android:layout_toEndOf="@+id/space"
-                        android:layout_alignParentTop="true" />
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/addTagButton"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_width="41dp"
+                        android:layout_height="41dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="270dp"
+                        android:layout_toEndOf="@+id/space"
+                        app:srcCompat="@android:drawable/ic_menu_add" />
 
                 </RelativeLayout>
 
