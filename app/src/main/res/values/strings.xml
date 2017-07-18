@@ -25,6 +25,9 @@
     <string name="reached_total">Reached total</string>
     <string name="reached_unique">Reached unique</string>
     <string name="approval_with_the_editor">Одобренно с гл.Редактором</string>
+    <string name="create">Create</string>
+    <string name="enter_tag_name">Enter tag name</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="tagsExample">
         <item>Tag1</item>

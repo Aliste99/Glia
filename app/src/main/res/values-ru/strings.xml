@@ -21,4 +21,7 @@
     <string name="text_wrote">Текст проверен</string>
     <string name="video_collected">Видео собрано</string>
     <string name="video_mounted">Видео собрано</string>
+    <string name="create">Создать</string>
+    <string name="enter_tag_name">Введите название тега</string>
+    <string name="cancel">Отмена</string>
 </resources>

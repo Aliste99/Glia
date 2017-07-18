@@ -243,6 +243,10 @@ public class AddTicketActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                TagCreateDialog tagCreateDialog = new TagCreateDialog();
+                tagCreateDialog.setContext(AddTicketActivity.this);
+                tagCreateDialog.show(getFragmentManager(), "tag");
+
             }
         });
 
