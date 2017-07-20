@@ -32,7 +32,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
 public class AddTicketActivity extends AppCompatActivity {
     TextView ticketDate, ticketTime, ticketTag, ticketAttachments;
@@ -43,7 +42,7 @@ public class AddTicketActivity extends AppCompatActivity {
     ImageButton addTagButton;
 
     FirebaseDatabase database;
-    DatabaseReference postsDatabaseReference, webDatabaseReference, ticketDatabaseReference;
+    DatabaseReference postsDatabaseReference, webDatabaseReference, ticketDatabaseReference, tagDatabaseReference;
     Ticket ticket;
     ImageButton ticketAddLink;
     GridView authorsGridView;
@@ -70,13 +69,15 @@ public class AddTicketActivity extends AppCompatActivity {
     ArrayList<YTItem> ytList;
     ArrayList<LinkItem> linkList;
     Author author;
-    String tag;
+    TicketTag tag;
     Dialog dialog;
     Button buttonDone;
     Intent intent;
     private int PICK_IMAGE = 1;
     String id;
     DatabaseReference reference;
+    ArrayList<TicketTag> list;
+    SpinnerAdapter spinnerAdapter;
 
 
     @Override
@@ -84,8 +85,10 @@ public class AddTicketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ticket);
         getSupportActionBar().hide();
+        list = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
+        tagDatabaseReference = database.getReference("tags");
         postsDatabaseReference = database.getReference("posts");
         webDatabaseReference = database.getReference("web");
         ticketDatabaseReference = database.getReference("tickets");
@@ -182,6 +185,34 @@ public class AddTicketActivity extends AppCompatActivity {
 
             }
         });
+        tagDatabaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                TicketTag tag = dataSnapshot.getValue(TicketTag.class);
+                list.add(tag);
+                spinnerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         intent = getIntent();
 
@@ -192,22 +223,17 @@ public class AddTicketActivity extends AppCompatActivity {
     }
 
     private void setSpinnerAdapter() {
-        final ArrayList<ItemData> list = new ArrayList<>();
-        list.add(new ItemData(getString(R.string.text_wrote), R.drawable.red_tag));
-        list.add(new ItemData(getString(R.string.text_checked), R.drawable.green_tag));
-        list.add(new ItemData(getString(R.string.video_collected), R.drawable.blue_tag));
-        list.add(new ItemData(getString(R.string.video_mounted), R.drawable.orange_tag));
-        list.add(new ItemData(getString(R.string.caption_wrote), R.drawable.pink_tag));
-        list.add(new ItemData(getString(R.string.caption_checked), R.drawable.dark_green_tag));
-        list.add(new ItemData(getString(R.string.approval_with_the_editor), R.drawable.black_tag));
-        SpinnerAdapter adapter = new SpinnerAdapter(this,
+        spinnerAdapter = new SpinnerAdapter(this,
                 R.layout.spinner_custom_layout, R.id.tagText, list);
-        tagSpinner.setAdapter(adapter);
+        if (!list.isEmpty())
+            tagSpinner.setSelection(0);
+        tagSpinner.setAdapter(spinnerAdapter);
         tagSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent,
                                        View itemSelected, int selectedItemPosition, long selectedId) {
-                ItemData itemData = list.get(selectedItemPosition);
-                tag = itemData.getText();
+
+                tag = list.get(selectedItemPosition);
+
             }
 
             public void onNothingSelected(AdapterView<?> parent) {

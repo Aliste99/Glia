@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity
                                             + "_______________________________________");
                                     Post postt = new Post(name, message, Integer.parseInt(shares), id, url, false);
                                     postList.add(postt);
-                                    // adapter.notifyDataSetChanged();
+                                    // spinnerAdapter.notifyDataSetChanged();
                                     posts.add(id);
                                 }
                                 for (String id : posts) {
@@ -472,7 +472,7 @@ public class MainActivity extends AppCompatActivity
                                             }
                                         }
 
-                                        // adapter.notifyDataSetChanged();
+                                        // spinnerAdapter.notifyDataSetChanged();
                                     }
                                 }
                             } else {

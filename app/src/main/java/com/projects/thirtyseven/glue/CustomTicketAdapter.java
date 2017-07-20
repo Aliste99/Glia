@@ -37,7 +37,7 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
         Post fbPost = ticket.getFBPost();
         ArrayList<Author> authorArrayList = ticket.getAuthor();
 
-        String getTagText = ticket.getTicketTag();
+        TicketTag ticketTag = ticket.getTicketTag();
         TextView name = (TextView) listViewItem.findViewById(R.id.name);
         TextView category = (TextView) listViewItem.findViewById(R.id.tagText);
         TextView description = (TextView) listViewItem.findViewById(R.id.description);
@@ -52,25 +52,11 @@ public class CustomTicketAdapter extends ArrayAdapter<Ticket> {
 
         author.setText("");
         name.setText(ticket.getTicketTitle());
-        category.setText(getTagText);
-
-        tagView.setImageResource(R.drawable.bookmark);
-
-        if (getTagText.equalsIgnoreCase(context.getString(R.string.text_wrote)))
-            tagView.setColorFilter(ContextCompat.getColor(context, R.color.redColor));
-        else if (getTagText.equalsIgnoreCase(context.getString(R.string.text_checked)))
-            tagView.setColorFilter(ContextCompat.getColor(context, R.color.greenColor));
-        else if (getTagText.equalsIgnoreCase(context.getString(R.string.video_collected)))
-            tagView.setColorFilter(ContextCompat.getColor(context, R.color.blueColor));
-        else if (getTagText.equalsIgnoreCase(context.getString(R.string.video_mounted)))
-            tagView.setColorFilter(ContextCompat.getColor(context, R.color.orangeColor));
-        else if (getTagText.equalsIgnoreCase(context.getString(R.string.caption_wrote)))
-            tagView.setColorFilter(ContextCompat.getColor(context, R.color.pinkColor));
-        else if (getTagText.equalsIgnoreCase(context.getString(R.string.caption_checked)))
-            tagView.setColorFilter(ContextCompat.getColor(context, R.color.darkGreenColor));
-        else if (getTagText.equalsIgnoreCase(context.getString(R.string.approval_with_the_editor)))
-            tagView.setColorFilter(ContextCompat.getColor(context, R.color.blackColor));
-        else tagView.setColorFilter(ContextCompat.getColor(context, R.color.greyColorLight));
+        if (ticketTag != null) {
+            category.setText(ticketTag.getTitle());
+            tagView.setImageResource(R.drawable.bookmark);
+            tagView.setColorFilter(ticketTag.getColor());
+        }
 
         description.setText(ticket.getTicketDescription());
         date.setText(ticket.getTicketDate());

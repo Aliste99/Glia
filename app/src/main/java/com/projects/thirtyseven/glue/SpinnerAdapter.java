@@ -15,13 +15,13 @@ import java.util.ArrayList;
  * Created by ThirtySeven on 10-Jun-17.
  */
 
-public class SpinnerAdapter extends ArrayAdapter<ItemData> {
+public class SpinnerAdapter extends ArrayAdapter<TicketTag> {
     int groupid;
     Activity context;
-    ArrayList<ItemData> list;
+    ArrayList<TicketTag> list;
     LayoutInflater inflater;
 
-    public SpinnerAdapter(Activity context, int groupid, int id, ArrayList<ItemData>
+    public SpinnerAdapter(Activity context, int groupid, int id, ArrayList<TicketTag>
             list) {
         super(context, id, list);
         this.list = list;
@@ -32,9 +32,13 @@ public class SpinnerAdapter extends ArrayAdapter<ItemData> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View itemView = inflater.inflate(groupid, parent, false);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.tagColor);
-        imageView.setImageResource(list.get(position).getImageId());
         TextView textView = (TextView) itemView.findViewById(R.id.tagText);
-        textView.setText(list.get(position).getText());
+
+        ImageView tagView = (ImageView) itemView.findViewById(R.id.tagColor);
+        tagView.setImageResource(R.drawable.spinner_tag);
+        imageView.setColorFilter(list.get(position).getColor());
+        textView.setText(list.get(position).getTitle());
+
         return itemView;
     }
 

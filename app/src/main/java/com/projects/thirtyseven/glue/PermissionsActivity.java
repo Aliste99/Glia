@@ -70,7 +70,7 @@ public class PermissionsActivity extends Activity implements View.OnClickListene
         String writePri = null;
         ArrayList<String> publishPerms = new ArrayList<>();
         for (int i = 0; i < checked.size(); i++) {
-            // Item position in adapter
+            // Item position in spinnerAdapter
             int position = checked.keyAt(i);
             // Add perm only if checked
             if (checked.valueAt(i)){

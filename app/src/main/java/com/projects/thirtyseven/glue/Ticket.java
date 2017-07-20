@@ -5,7 +5,6 @@ import java.util.ArrayList;
 class Ticket {
     private String ticketDate;
     private String ticketTime;
-    private String ticketTag;
     private String ticketCategory;
     private String ticketDescription;
     private String ticketTaskProfession;
@@ -17,6 +16,7 @@ class Ticket {
     private String ticketTitle;
     private Post FBPost;
     private String id;
+    private TicketTag ticketTag;
 
     public ArrayList<Author> getAuthor() {
         return author;
@@ -28,7 +28,7 @@ class Ticket {
 
     }
 
-    public Ticket(String ticketDate, String ticketTime, String ticketTag,
+    public Ticket(String ticketDate, String ticketTime, TicketTag ticketTag,
                   String ticketCategory, String ticketDescription,
                   String ticketTaskProfession, String ticketTaskCoWorker,
                   String ticketTaskFee, String ticketExpenses,
@@ -48,7 +48,7 @@ class Ticket {
         this.author = author;
     }
 
-    public Ticket(String ticketDate, String ticketTime, String ticketTag,
+    public Ticket(String ticketDate, String ticketTime, TicketTag ticketTag,
                   String ticketCategory, String ticketDescription, String ticketTaskProfession,
                   String ticketTaskCoWorker, String ticketTaskFee, String ticketExpenses,
                   String ticketSpending, String ticketComment, String ticketTitle,
@@ -78,7 +78,7 @@ class Ticket {
         return ticketTime;
     }
 
-    public String getTicketTag() {
+    public TicketTag getTicketTag() {
         return ticketTag;
     }
 
@@ -126,7 +126,7 @@ class Ticket {
         this.ticketTime = ticketTime;
     }
 
-    public void setTicketTag(String ticketTag) {
+    public void setTicketTag(TicketTag ticketTag) {
         this.ticketTag = ticketTag;
     }
 
