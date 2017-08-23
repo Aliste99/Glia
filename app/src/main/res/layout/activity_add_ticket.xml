@@ -45,7 +45,7 @@
                 android:layout_toStartOf="@+id/ticketAddLink"
                 android:background="@android:color/transparent"
                 android:ems="10"
-                android:hint="Enter title..."
+                android:hint="@string/enter_title"
                 android:inputType="textPersonName"
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/whiteColor"
@@ -92,16 +92,17 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="0dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/lead_pencil" />
 
                     <Space
@@ -111,22 +112,22 @@
                     <EditText
                         android:id="@+id/ticketCategoryText"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:hint="Category..."
+                        android:hint="@string/category"
                         android:textSize="14dp" />
 
                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="0dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="0dp">
 
 
                     <TextView
@@ -159,11 +160,11 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="0dp">
 
                     <Space
                         android:layout_width="49dp"
@@ -174,12 +175,12 @@
                     <EditText
                         android:id="@+id/ticketDescriptionText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="49dp"
                         android:background="@android:color/transparent"
-                        android:hint="Description..."
+                        android:hint="@string/description"
                         android:textColor="@color/blackColor"
                         android:textSize="14dp" />
 
@@ -196,11 +197,11 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="8dp">
 
                     <ImageView
                         android:id="@+id/imageView3"
@@ -220,13 +221,24 @@
 
                     <Spinner
                         android:id="@+id/tagSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignTop="@+id/space"
+                        android:layout_alignParentTop="true"
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_weight="1"
-                        android:layout_toEndOf="@+id/space" />
+                        android:layout_marginRight="41dp"
+                        android:layout_toEndOf="@+id/space"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/addTagButton"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_width="41dp"
+                        android:layout_height="41dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="270dp"
+                        android:layout_toEndOf="@+id/space"
+                        app:srcCompat="@android:drawable/ic_menu_add" />
 
                 </RelativeLayout>
 
@@ -241,16 +253,17 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="0dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/clipboard_check" />
 
                     <Space
@@ -260,32 +273,32 @@
                     <EditText
                         android:id="@+id/ticketProfessionText"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:hint="Profession..."
+                        android:hint="@string/profession"
                         android:textSize="14dp" />
 
                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="0dp">
 
                     <EditText
                         android:id="@+id/ticketTaskFeeText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="49dp"
                         android:background="@android:color/transparent"
-                        android:hint="Fee..."
+                        android:hint="@string/fee"
                         android:inputType="numberDecimal"
                         android:textColor="@color/blackColor"
                         android:textSize="14dp" />
@@ -338,16 +351,17 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="0dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/currency_usd" />
 
                     <Space
@@ -357,32 +371,32 @@
                     <EditText
                         android:id="@+id/ticketExpensesNameText"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:hint="Name..."
+                        android:hint="@string/name"
                         android:textSize="14dp" />
 
                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="0dp">
 
                     <EditText
                         android:id="@+id/ticketSpendingText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="49dp"
                         android:background="@android:color/transparent"
-                        android:hint="Spending..."
+                        android:hint="@string/spending"
                         android:inputType="numberDecimal"
                         android:textColor="@color/blackColor"
                         android:textSize="14dp" />
@@ -455,7 +469,7 @@
                         android:layout_marginLeft="49dp"
                         android:background="@android:color/transparent"
                         android:gravity="top|left"
-                        android:hint="Comment..."
+                        android:hint="@string/comment"
                         android:lines="8"
                         android:minLines="3"
                         android:textSize="14dp" />

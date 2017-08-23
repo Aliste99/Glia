@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Glia</string>
+    <string name="add_author">Добавить автора</string>
+    <string name="approval_with_the_editor">Одобренно с гл.Редактором</string>
+    <string name="caption_checked">Кэпшен проверен</string>
+    <string name="caption_wrote">Кэпшен написан</string>
+    <string name="category">Категория...</string>
+    <string name="change">изменить</string>
+    <string name="comment">Комментарий...</string>
+    <string name="delete">Удалить</string>
+    <string name="description">Описание...</string>
+    <string name="enter_title">Введите название...</string>
+    <string name="fee">Гонорар...</string>
+    <string name="name">Название...</string>
+    <string name="profession">Профессия...</string>
+    <string name="reached_total">Достигнуто</string>
+    <string name="reached_unique">Уникальных</string>
+    <string name="spending">Затраты...</string>
+    <string name="text_checked">Текст проверен</string>
+    <string name="text_wrote">Текст проверен</string>
+    <string name="video_collected">Видео собрано</string>
+    <string name="video_mounted">Видео собрано</string>
+    <string name="create">Создать</string>
+    <string name="enter_tag_name">Введите название тега</string>
+    <string name="cancel">Отмена</string>
+</resources>

@@ -42,6 +42,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.0.1'
     compile 'junit:junit:4.12'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile 'com.github.QuadFlask:colorpicker:0.0.13'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
