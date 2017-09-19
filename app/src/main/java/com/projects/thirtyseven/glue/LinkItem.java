@@ -10,6 +10,7 @@ class LinkItem {
     String link;
     long published;
     String title;
+    private boolean connected;
 
     public LinkItem(){}
 
@@ -50,5 +51,14 @@ class LinkItem {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 }

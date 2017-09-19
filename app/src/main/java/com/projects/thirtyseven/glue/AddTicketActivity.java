@@ -49,7 +49,7 @@ public class AddTicketActivity extends AppCompatActivity {
     ImageButton fbButton, ytButton, linkButton;
     Post fbPost, fbObjToSave;
     YTItem youtubeItem;
-    LinkItem linkItem;
+    LinkItem linkItem, linkObjToSave;
     View.OnClickListener onClickListener;
 
     int DIALOG_DATE = 1;
@@ -342,6 +342,35 @@ public class AddTicketActivity extends AppCompatActivity {
                         ArrayAdapter adapter;
                         adapter = new CustomLinksAdapter(dialog.getContext(), R.layout.custom_list_of_links, linkList);
                         listOfLinks.setAdapter(adapter);
+                        listOfLinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                LinkItem linkToConnect = (LinkItem) parent.getItemAtPosition(position);
+                                Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), linkToConnect.getTitle(), Toast.LENGTH_SHORT).show();
+                                if (linkObjToSave != null) {
+                                    reference = database.getReference("web").child(linkObjToSave.getId());
+                                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            LinkItem link = dataSnapshot.getValue(LinkItem.class);
+                                            link.setConnected(false);
+                                            reference.setValue(link);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
+                                linkObjToSave = linkToConnect;
+                                dialog.hide();
+                            }
+                        });
+
+                        dialog.show();
                     }
                 });
 
@@ -372,6 +401,12 @@ public class AddTicketActivity extends AppCompatActivity {
                     ticket.setFBPost(fbObjToSave);
                     fbObjToSave.setConnected(true);
                     postsDatabaseReference.child(fbObjToSave.getId()).setValue(fbObjToSave);
+                }
+
+                if (linkObjToSave != null) {
+                    ticket.setWebLink(linkObjToSave);
+                    linkObjToSave.setConnected(true);
+                    postsDatabaseReference.child(linkObjToSave.getId()).setValue(linkObjToSave);
                 }
 
                 if (getIntent().getExtras() == null) {

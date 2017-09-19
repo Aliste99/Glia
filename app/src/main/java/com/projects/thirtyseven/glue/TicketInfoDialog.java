@@ -124,6 +124,24 @@ public class TicketInfoDialog extends DialogFragment implements View.OnClickList
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Ticket ticket = dataSnapshot.getValue(Ticket.class);
+                                if (ticket.getWebLink() != null) {
+                                    LinkItem link = ticket.getWebLink();
+                                    postId = link.getId();
+                                    reference = firebaseDatabase.getReference("web").child(postId);
+                                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            LinkItem link = dataSnapshot.getValue(LinkItem.class);
+                                            link.setConnected(false);
+                                            reference.setValue(link);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
                                 if (ticket.getFBPost() != null) {
                                     Post post = ticket.getFBPost();
                                     postId = post.getId();

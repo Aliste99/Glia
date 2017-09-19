@@ -2,6 +2,8 @@ package com.projects.thirtyseven.glue;
 
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -64,13 +66,14 @@ public class MainActivity extends AppCompatActivity
     private CallbackManager callbackManager;
     private static final String TAG = "myLogs";
     private static final int PICK_PERMS_REQUEST = 0;
-
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
+        setTitle("Glia");
         asNeeded();
         init();
         setListeners();
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 ticket = dataSnapshot.getValue(Ticket.class);
-                for (int i = 0; i < listOfTickets.size(); i++){
+                for (int i = 0; i < listOfTickets.size(); i++) {
                     if (listOfTickets.get(i).getId() == ticket.getId()) {
                         listOfTickets.remove(i);
                     }
@@ -140,46 +143,45 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(final LoginResult loginResult) {
-                // App code
-                Toast.makeText(
-                        MainActivity.this,
-                        //R.string.success,
-                        "success",
-                        Toast.LENGTH_LONG).show();
-                // updateUI();
-            }
-
-            @Override
-            public void onCancel() {
-                // App code
-                Toast.makeText(
-                        MainActivity.this,
-                        //R.string.cancel,
-                        "on cancel",
-                        Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onError(final FacebookException exception) {
-                // App code
-                Toast.makeText(
-                        MainActivity.this,
-                        //R.string.error,
-                        "error",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-
+//        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//            @Override
+//            public void onSuccess(final LoginResult loginResult) {
+//                // App code
+//                Toast.makeText(
+//                        MainActivity.this,
+//                        //R.string.success,
+//                        "success",
+//                        Toast.LENGTH_LONG).show();
+//                navigationView.getMenu().findItem(R.id.facebook_connect).getIcon().setColorFilter(Color.parseColor("#4867aa"), PorterDuff.Mode.SRC_ATOP);
+//                // updateUI();
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                // App code
+//                Toast.makeText(
+//                        MainActivity.this,
+//                        //R.string.cancel,
+//                        "on cancel",
+//                        Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onError(final FacebookException exception) {
+//                // App code
+//                Toast.makeText(
+//                        MainActivity.this,
+//                        //R.string.error,
+//                        "error",
+//                        Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
 
     private void init() {
         firebase = FirebaseDatabase.getInstance();
         databaseReference = firebase.getReference("tickets");
         listOfTags = (ListView) findViewById(R.id.listOfTegs);
-        fbLoginButton = (LoginButton) findViewById(R.id._fb_login);
     }
 
     private void asNeeded() {
@@ -203,7 +205,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -326,7 +328,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         for (FeedParser.Entry entry : entries) {
-            String hashId = String.valueOf(entry.id.hashCode());
+            String hashId = String.valueOf(entry.id);
             databaseReference.getRoot().child("web").child(hashId).setValue(entry);
         }
     }
@@ -506,8 +508,43 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (id == R.id.facebook_connect) {
+            fbLoginButton = (LoginButton) item.getActionView();
+            fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(final LoginResult loginResult) {
+                // App code
+                Toast.makeText(
+                        MainActivity.this,
+                        //R.string.success,
+                        "success",
+                        Toast.LENGTH_LONG).show();
+               // navigationView.getMenu().findItem(R.id.facebook_connect).getIcon().setColorFilter(Color.parseColor("#4867aa"), PorterDuff.Mode.SRC_ATOP);
+                // updateUI();
+            }
 
-        if (id == R.id.nav_camera) {
+            @Override
+            public void onCancel() {
+                // App code
+                Toast.makeText(
+                        MainActivity.this,
+                        //R.string.cancel,
+                        "on cancel",
+                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(final FacebookException exception) {
+                // App code
+                Toast.makeText(
+                        MainActivity.this,
+                        //R.string.error,
+                        "error",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+        } else if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 

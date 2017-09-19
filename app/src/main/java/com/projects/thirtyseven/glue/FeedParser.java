@@ -122,7 +122,8 @@ public class FeedParser {
             String name = parser.getName();
             if (name.equals("id")){
                 // Example: <id>urn:uuid:218AC159-7F68-4CC6-873F-22AE6017390D</id>
-                id = readTag(parser, TAG_ID);
+                String hashId = String.valueOf(readTag(parser, TAG_ID).hashCode());
+                id = hashId;
             } else if (name.equals("title")) {
                 // Example: <title>Article title</title>
                 title = readTag(parser, TAG_TITLE);

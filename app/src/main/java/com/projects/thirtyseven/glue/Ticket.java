@@ -17,6 +17,7 @@ class Ticket {
     private Post FBPost;
     private String id;
     private TicketTag ticketTag;
+    private LinkItem webLink;
 
     public ArrayList<Author> getAuthor() {
         return author;
@@ -185,5 +186,13 @@ class Ticket {
 
     public String getId() {
         return id;
+    }
+
+    public void setWebLink(LinkItem webLink) {
+        this.webLink = webLink;
+    }
+
+    public LinkItem getWebLink() {
+        return webLink;
     }
 }
